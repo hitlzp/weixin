@@ -3,46 +3,29 @@
 var app = getApp()
 Page({
   data: {
-    array:[]
+    motto: 'Hello World',
+    userInfo: {}
   },
-  onLoad: function () {
-    var self = this;
-    wx.getStorage({
-      key: 'user',
-      success: function(res){
-        console.log(res.data)
-        wx.request({
-          url: 'http://127.0.0.1:3000/showCourseList',
-          method: 'GET',
-          data: {
 
-          },
-          header: {
-              'content-type': 'application/json'
-          },
-          success: function(res) {
-            var data = res.data;
-            for(var i=0;i<data.length;i++) {
-                data[i].course_name = unescape(data[i].course_name.replace(/\\u/g, "%u"));
-            }
-            self.setData({
-              array: data
-            })
-          }
-        })
-      },
-      fail: function(res) {
-        // fail
-        console.log("fail");
-        wx.navigateTo({
-            url: '/pages/login/login'
-        });
-      }
+  hanshu()
+  {
+    console.log(1111);
+  },
+  //事件处理函数
+  bindViewTap: function() {
+    wx.navigateTo({
+      url: '../logs/logs'
     })
   },
-  bindCourseTap: function(e) {
-    wx.navigateTo({
-        url: '/pages/class/class?id='+e.currentTarget.dataset.id
-    });
+  onLoad: function () {
+    console.log('onLoad')
+    var that = this
+    //调用应用实例的方法获取全局数据
+    app.getUserInfo(function(userInfo){
+      //更新数据
+      that.setData({
+        userInfo:userInfo
+      })
+    })
   }
 })

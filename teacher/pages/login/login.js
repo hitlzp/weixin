@@ -33,15 +33,47 @@ Page({
         'content-type': 'application/json'
       },
       success: function (res) {
-        wx.setStorage({
-          key: 'user',
-          data: e.detail.value.user,
-          success: function () {
-            wx.reLaunch({
-              url: '/pages/index/index'
-            });
-          }
-        })
+        var state = res.data['haha']['user_exist'];
+        if(state == 0)
+        {
+          wx.showToast({
+            title: '用户不存在',
+            icon: 'loading',
+            duration: 2000
+          })
+        }
+        else if(state == 1)
+        {
+          wx.showToast({
+            title: '密码错误',
+            icon: 'loading',
+            duration: 2000
+          })
+        }
+        else if (state == 3) {
+          wx.showToast({
+            title: '用户信息不全',
+            icon: 'loading',
+            duration: 2000
+          })
+        }
+        else
+        {
+          wx.showToast({
+            title: '登陆成功',
+            icon: 'success',
+            duration: 2000
+          })
+          wx.setStorage({
+            key: 'user',
+            data: e.detail.value.user,
+            success: function () {
+              wx.reLaunch({
+                url: '/pages/index/index'
+              });
+            }
+          })
+        }
       }
     })
   }

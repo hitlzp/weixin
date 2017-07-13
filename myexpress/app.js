@@ -9,7 +9,7 @@ const connection = mysql.createConnection({
   host     : 'localhost',
   user     : 'root',
   password : 'ni1234ren',
-  database : 'book_manager'
+  database : 'fanzhuan'
 });
 app.use(express.static(__dirname + '/public'));
 

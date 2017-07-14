@@ -1,0 +1,14 @@
+<!--pages/class/addclass.wxml-->
+<view class="container">
+  <form bindsubmit="bindFormSubmit">
+    <view class="inputSection">
+        <input name="name" placeholder="课程班名" bindblur="bindNameInput" auto-focus/>
+    </view>
+    <view class="inputSection">
+        <input name="num" placeholder="课程容量" bindblur="bindNumInput" auto-focus/>
+    </view>
+    <view>
+        <button formType="submit" class="submitBtn" disabled="{{btnDisabled}}">创建课程班</button>
+    </view>
+  </form>
+</view>

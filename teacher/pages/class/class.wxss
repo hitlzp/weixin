@@ -1,0 +1,40 @@
+/* pages/class/class.wxss */
+.btn-section {
+    display: flex;
+    justify-content: space-between;
+}
+.container {
+  height: 100%;
+  padding: 100rpx 0;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: space-between;
+  box-sizing: border-box;
+}
+.btn-left, .btn-right {
+    height: 30px;
+    width: 100%;
+    line-height: 30px;
+    border-radius: 6px;
+    background-color: #9acd32;
+}
+.btn-right {
+    margin-left: 10px;
+}
+.class-title {
+    font-size: 18px;
+    line-height: 26px;
+}
+.student-num {
+    font-size: 14px;
+    line-height: 20px;
+    color: #a5aba6;
+}
+.scroll-view-item {
+    height: 50px;
+    margin-top: 10px;
+    padding: 10px 20px;
+    padding-bottom: 0;
+    border-top: 1px solid #e6e6e6;
+}

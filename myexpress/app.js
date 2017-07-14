@@ -107,7 +107,6 @@ app.listen(3000,function(){
 //学生注册
 app.post('/studentRegister', function (req, res) {
 	var sql, res_body;
-	console.log(8888);
 	sql = 'SELECT password from student WHERE student_id ='+ '\''+ req.body.studentId + '\'';
 
 	connection.query(sql,function (err, rows, fields) {
@@ -139,7 +138,43 @@ app.post('/studentRegister', function (req, res) {
 	          	}
 	        }
 		}
-		console.log(res_body);
 		res.json({haha: res_body});
+	});
+});
+
+//教师端和学生端？显示课程班列表
+app.get('/showClassList', function (req, res) {
+	var sql = 'SELECT * from class WHERE course_id='+req.query.course_id;
+	connection.query(sql, function (err, result) {
+		if(req.query.student_id) {
+			var _sql = 'SELECT class_id from studentClass WHERE student_id='+req.query.student_id,
+				res_body = {
+					classList: result
+				};
+			connection.query(_sql, function (err, result) {
+				res_body.studentClasses = result;
+   				res.send(JSON.stringify(res_body));
+			});
+		}else {
+        	res.send(JSON.stringify(result));
+		}
+	});
+});
+
+//教师添加课程班
+app.post('/addClass', function (req, res) {
+	console.log(req.body.num);
+	var sql = 'SELECT * from class WHERE course_id='+req.body.course_id;
+	connection.query(sql, function (err, result) {
+        class_id = req.body.course_id + result.length;
+        var addUserSql = 'INSERT INTO class(course_id,name,max_num,student_num,class_id) VALUES(?,?,?,0,?)',
+			addSqlParams = [req.body.course_id,req.body.name,req.body.num,class_id],
+			res_body;
+		connection.query(addUserSql, addSqlParams, function (err, result) {
+	  		res_body = {
+	  			add_success: 1
+	  		}
+	        res.send(res_body);
+		});
 	});
 });

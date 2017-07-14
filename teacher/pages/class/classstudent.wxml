@@ -1,0 +1,9 @@
+<!--pages/class/classstudent.wxml-->
+<view class="container">
+    <view class="addstudent">
+        <view class="id-input">
+            <input placeholder="输入学生学号" bindblur="studentIdInput" name="studentId" />
+        </view>
+        <button class="addstudentbtn" bindtap="addstudent">邀请</button>
+    </view>
+</view>

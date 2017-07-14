@@ -1,0 +1,20 @@
+/* pages/class/addclass.wxss */
+.inputSection {
+    border-bottom: 1px solid #9acd32;
+    margin-bottom: 20px;
+}
+.submitBtn {
+    height: 30px;
+    line-height: 30px;
+    border-radius: 6px;
+    background-color: #9acd32;
+}
+.container {
+  height: 100%;
+  padding: 200rpx 0;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: space-between;
+  box-sizing: border-box;
+} 

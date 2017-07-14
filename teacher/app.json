@@ -2,12 +2,15 @@
   "pages":[
     "pages/index/index",
     "pages/login/login",
-    "pages/register/register"
+    "pages/register/register",
+    "pages/class/addclass",
+    "pages/class/class",
+    "pages/class/classstudent"
   ],
   "window":{
     "backgroundTextStyle":"light",
     "navigationBarBackgroundColor": "#fff",
-    "navigationBarTitleText": "WeChat",
+    "navigationBarTitleText": "翻转课堂-教师",
     "navigationBarTextStyle":"black"
   },
   "tabBar": {

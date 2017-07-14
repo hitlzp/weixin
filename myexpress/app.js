@@ -16,11 +16,11 @@ app.use(express.static(__dirname + '/public'));
 //教师学生登陆
 app.post('/login', function (req, res) { 
 	var sql, res_body;
-	//user as teacher
+
 	if(req.body.entryOption == 1) {
-		sql = 'SELECT password from teacher WHERE email ='+ '\''+ req.body.user + '\'';
+		sql = 'SELECT password from teacher WHERE email ='+ '\''+ req.body.user + '\'';//教师登陆
 	}else {
-		sql = 'SELECT password from student WHERE student_id ='+ '\''+ req.body.user + '\'';
+		sql = 'SELECT password from student WHERE student_id ='+ '\''+ req.body.user + '\'';//学生登陆
 	}
 
 	connection.query(sql,function (err, rows, fields) {
@@ -102,4 +102,44 @@ app.post('/showCourseList', function (req, res) {
 app.listen(3000,function(){
 	console.log('server start ....');
 
+});
+
+//学生注册
+app.post('/studentRegister', function (req, res) {
+	var sql, res_body;
+	console.log(8888);
+	sql = 'SELECT password from student WHERE student_id ='+ '\''+ req.body.studentId + '\'';
+
+	connection.query(sql,function (err, rows, fields) {
+
+		if(req.body.studentId == '' || req.body.userName == '' || req.body.pwd == '')
+		{
+			res_body = {
+        		user_exist: 2 //用户信息不全
+          	}
+		}
+		else{
+
+	        if(err || !rows || rows.length==0){
+	        	res_body = {
+	        		user_exist: 0 //可以注册
+	          	}
+
+	          	var addUserSql = 'INSERT INTO student(student_id,name,password) VALUES(?,?,?)',
+				addSqlParams = [req.body.studentId,req.body.userName,req.body.pwd],
+				res_body;
+
+			  	connection.query(addUserSql, addSqlParams, function (err, result) { 
+				});
+	        }
+	        else 
+	        {
+	        	res_body = {
+	        		user_exist: 1 //用户已存在
+	          	}
+	        }
+		}
+		console.log(res_body);
+		res.json({haha: res_body});
+	});
 });

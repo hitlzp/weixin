@@ -32,7 +32,7 @@ Page({
           var state = res.data['haha']['user_exist'];
           if (state == 1) {
             wx.showToast({
-              title: '用户已存在',
+              title: '用户已存在，请直接登录',
               icon: 'loading',
               duration: 2000
             })

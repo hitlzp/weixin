@@ -91,6 +91,14 @@ app.post('/teacherRegister', function (req, res) {
 });
 
 
+//教师端打印课程列表
+app.post('/showCourseList', function (req, res) {
+	var sql = 'SELECT * from course where teacher_id = ' + '\''+req.body.themail +'\'';
+	connection.query(sql, function (err, result) {
+        res.send(JSON.stringify(result));
+	});
+});
+
 app.listen(3000,function(){
 	console.log('server start ....');
 

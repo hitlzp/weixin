@@ -70,7 +70,7 @@ Page({
   addstudent: function() {
       var self = this;
       wx.request({
-          url: 'http://127.0.0.1:3000/addStudent',
+        url: getApp().globalData.yurl+'/addStudent',
           method: 'POST',
           data: {
               class_id: self.data.classId,

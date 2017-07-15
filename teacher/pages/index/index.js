@@ -12,7 +12,7 @@ Page({
       success: function (res) {
         console.log(res.data)
         wx.request({
-          url: 'http://127.0.0.1:3000/showCourseList',
+          url: getApp().globalData.yurl+'/showCourseList',
           method: 'post',
           data: {
             themail: res.data

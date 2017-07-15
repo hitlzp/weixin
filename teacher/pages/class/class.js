@@ -7,7 +7,7 @@ Page({
     // 页面初始化 options为页面跳转所带来的参数
     var self = this;
     wx.request({
-      url: 'http://127.0.0.1:3000/showClassList',
+      url: getApp().globalData.yurl+'/showClassList',
       method: 'GET',
       data: {
         course_id: options.id

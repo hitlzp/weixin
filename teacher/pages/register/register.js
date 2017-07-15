@@ -18,7 +18,7 @@ Page({
   },
   bindFormSubmit: function(e) {
     wx.request({
-        url: 'http://127.0.0.1:3000/teacherRegister',
+      url: getApp().globalData.yurl+'/teacherRegister',
         method: 'POST',
         data: {
           email: e.detail.value.email,

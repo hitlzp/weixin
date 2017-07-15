@@ -34,7 +34,7 @@ Page({
   bindFormSubmit: function(e) {
     var self = this;
     wx.request({
-      url: 'http://127.0.0.1:3000/addClass',
+      url: getApp().globalData.yurl+'/addClass',
       method: 'POST',
       data: {
         course_id: self.data.course_id,

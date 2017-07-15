@@ -21,7 +21,7 @@ Page({
 
   bindFormSubmit: function (e) {
     wx.request({
-      url: 'http://127.0.0.1:3000/login',
+      url: getApp().globalData.yurl + '/login',
       method: 'POST',
       //entryOption为1表示是老师
       data: {

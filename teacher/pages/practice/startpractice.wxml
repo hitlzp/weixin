@@ -1,0 +1,50 @@
+<!--pages/practice/startpractice.wxml-->
+<view class="container">
+    <view class="num-tips">
+        <text>您总共选择了 </text>
+        <text class="question-num">{{question_num}}</text>
+        <text>  道题</text>
+    </view>
+    
+  <view class="practice-name">
+      <input placeholder="编辑此次练习名称" bindblur="practiceNameInput" name="practiceName"/>
+  </view>
+  <view class="practice-num">
+      每位学生应答题：
+      <input bindblur="practiceNumInput" name="practiceNum"/>
+      道
+  </view>
+  <view class="date-section">
+    <text>练习开始时间：</text>
+    <picker mode="date" value="{{date}}" start="2017-04-01" end="2019-09-01" bindchange="bindDateChange" class="picker">
+      <view>
+        {{date}}
+      </view>
+    </picker>
+  </view>
+  <view class="time-section">
+    <picker mode="time" value="{{time}}" start="00:01" end="23:59" bindchange="bindTimeChange" class="picker">
+      <view >
+        {{time}}
+      </view>
+    </picker>
+  </view>
+    <view class="date-section">
+    <text>练习结束时间：</text>
+    <picker mode="date" value="{{end_date}}" start="2017-09-01" end="2019-09-01" bindchange="bindEndDateChange" class="picker">
+      <view>
+        {{end_date}}
+      </view>
+    </picker>
+  </view>
+  <view class="time-section">
+    <picker mode="time" value="{{end_time}}" start="00:01" end="23:59" bindchange="bindEndTimeChange" class="picker">
+      <view >
+        {{end_time}}
+      </view>
+    </picker>
+  </view>
+  <view>
+    <button class="sub-btn" bindtap="submitSetting">提交设置</button>
+  </view>
+</view>

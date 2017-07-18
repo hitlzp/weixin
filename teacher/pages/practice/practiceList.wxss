@@ -1,0 +1,31 @@
+/* pages/practice/practiceList.wxss */
+.time-text {
+    font-size: 12px;
+    color: #e6e6e6;
+}
+
+.scroll-view-item {
+    height: 70px;
+    padding: 10px 20px;
+    padding-bottom: 0;
+    border-top: 1px solid #e6e6e6;
+    display: flex;
+    align-items: center;
+}
+
+.left-section {
+    float: left;
+    width: 70%;
+}
+
+
+.right-section {
+    float: right;
+    width: 30%;
+}
+
+
+.view-btn {
+    background-color: #9acd32;
+    font-size: 14px;
+}

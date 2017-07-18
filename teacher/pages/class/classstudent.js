@@ -1,89 +1,31 @@
 // pages/class/classstudent.js
 Page({
-
-  /**
-   * 页面的初始数据
-   */
   data: {
-  
+    array: []
   },
-
-  /**
-   * 生命周期函数--监听页面加载
-   */
-
-
-  /**
-   * 生命周期函数--监听页面初次渲染完成
-   */
+  onLoad: function (options) {
+    // 页面初始化 options为页面跳转所带来的参数
+    var self = this;
+    self.setData({
+      course_id: options.classid
+    })
+  },
   onReady: function () {
-  
+    // 页面渲染完成
   },
-
-  /**
-   * 生命周期函数--监听页面显示
-   */
   onShow: function () {
-  
+    // 页面显示
   },
-
-  /**
-   * 生命周期函数--监听页面隐藏
-   */
   onHide: function () {
-  
+    // 页面隐藏
   },
-
-  /**
-   * 生命周期函数--监听页面卸载
-   */
   onUnload: function () {
+    // 页面关闭
+  },
   
-  },
-
-  /**
-   * 页面相关事件处理函数--监听用户下拉动作
-   */
-  onPullDownRefresh: function () {
-  
-  },
-
-  /**
-   * 页面上拉触底事件的处理函数
-   */
-  onReachBottom: function () {
-  
-  },
-
-  /**
-   * 用户点击右上角分享
-   */
-  onShareAppMessage: function () {
-  
-  },
-
-  studentIdInput: function(e) {
-      this.setData({
-          addstudentId: e.detail.value
-      })
-  },
-  addstudent: function() {
-      var self = this;
-      wx.request({
-        url: getApp().globalData.yurl+'/addStudent',
-          method: 'POST',
-          data: {
-              class_id: self.data.classId,
-              student_id: self.data.addstudentId
-          },
-          header: {
-              'content-type': 'application/json'
-          },
-          success: function(res) {
-              wx.showToast({
-                  title: '您的邀请已发出',
-              })
-          }
-      })
+  setquestion: function () {
+    wx.navigateTo({
+      url: '/pages/question/examlist?id=' + this.data.course_id
+    });
   }
 })

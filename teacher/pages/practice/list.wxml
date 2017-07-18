@@ -1,0 +1,19 @@
+<!--pages/practice/list.wxml-->
+<view class="container">
+  <scroll-view scroll-y="true" style="height: 100%;padding-bottom: 20px;">
+    <view name="course-show" wx:for="{{question_list}}" wx:for-item="item">
+      <view class="scroll-view-item">
+        <view class="text-view">      
+          <text class="course-title">{{item.index+1}}、{{item.subject}}</text>
+        </view>
+        <view class="option-list" wx:for="{{item.optionDetail}}" wx:for-item="optionItem">
+            <view class="option">{{optionItem.content}}</view>
+            <view class="option-num" wx:if="{{optionItem.choose>0}}">{{optionItem.choose}}</view>
+        </view>
+      </view>
+      <view class="true-answer">
+        {{item.total_analyse}};此题答题正确率为：{{item.trueRate}}
+      </view>
+    </view>
+  </scroll-view>
+</view>

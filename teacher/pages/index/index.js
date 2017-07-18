@@ -22,7 +22,6 @@ Page({
           },
           success: function (res) {
             var data = res.data;
-            console.log(data.length)
             for (var i = 0; i < data.length; i++) {
               data[i].course_name = unescape(data[i].course_name.replace(/\\u/g, "%u"));
             }

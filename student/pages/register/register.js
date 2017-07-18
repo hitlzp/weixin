@@ -19,7 +19,7 @@ Page({
   bindFormSubmit: function (e) {
     var re_studentId;
     wx.request({
-      url: 'http://127.0.0.1:3000/studentRegister',
+      url: getApp().globalData.yurl + '/studentRegister',
       method: 'POST',
       data: {
         studentId: e.detail.value.studentId,

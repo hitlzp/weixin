@@ -1,0 +1,12 @@
+<!--pages/question/examlist.wxml-->
+<view class="container">
+<scroll-view scroll-y="true" style="height: 100%;border-bottom:1px solid #e6e6e6;">
+    <view name="class-show" wx:for="{{array}}" wx:for-item="item">
+        <view class="scroll-view-item" bindtap="bindClassTap" data-id="{{item.exam_id}}">
+            <view class="text-view">      
+                {{item.exam_name}}
+            </view>
+        </view>
+    </view>
+</scroll-view>
+</view>

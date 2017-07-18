@@ -1,0 +1,16 @@
+/* pages/question/examlist.wxss */
+.scroll-view-item {
+    height: 26px;
+    border-bottom: 1px solid #e6e6e6;
+    padding: 6px 10px;
+}
+.text-view {
+    height: 26px;
+    line-height: 26px;
+    font-size: 16px;
+    overflow:hidden; 
+    text-overflow:ellipsis;
+    display:-webkit-box; 
+    -webkit-box-orient:vertical;
+    -webkit-line-clamp:1; 
+}

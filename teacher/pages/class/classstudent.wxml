@@ -1,9 +1,7 @@
 <!--pages/class/classstudent.wxml-->
 <view class="container">
-    <view class="addstudent">
-        <view class="id-input">
-            <input placeholder="输入学生学号" bindblur="studentIdInput" name="studentId" />
-        </view>
-        <button class="addstudentbtn" bindtap="addstudent">邀请</button>
-    </view>
+  <view class="btn-section">
+      <button bindtap="setquestion">布置训练题</button>
+      <button bindtap="premakegroup">出席分组</button>
+  </view>
 </view>

@@ -7,7 +7,7 @@
     <view name="class-show" wx:for="{{array}}" wx:for-item="item">
         <view class="scroll-view-item" data-classid="{{item.class_id}}" bindtap="bindClassTap">
             <view class="text-view">      
-                <text class="class-title">{{item.name}}</text>
+                <text class="class-title">{{item.name}}{{item.class_id}}</text>
             </view>
             <view>      
                 <text class="student-num">选课人数：{{item.student_num}}/{{item.max_num}}</text>

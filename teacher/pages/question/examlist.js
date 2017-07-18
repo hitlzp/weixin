@@ -1,4 +1,4 @@
-// pages/class/class.js
+// pages/question/examlist.js
 Page({
   data:{
     array: []
@@ -7,7 +7,7 @@ Page({
     // 页面初始化 options为页面跳转所带来的参数
     var self = this;
     wx.request({
-      url: getApp().globalData.yurl+'/showClassList',
+      url: getApp().globalData.yurl +'/showExamList',
       method: 'GET',
       data: {
         course_id: options.id
@@ -16,8 +16,12 @@ Page({
           'content-type': 'application/json'
       },
       success: function(res) {
+        var data = res.data;
+        for(var i=0;i<data.length;i++) {
+          data[i].exam_name = unescape(data[i].exam_name.replace(/\\u/g, "%u"));
+        }
         self.setData({
-          array: res.data,
+          array: data,
           course_id: options.id
         })
       }
@@ -35,20 +39,9 @@ Page({
   onUnload:function(){
     // 页面关闭
   },
-  createClass: function() {
-    wx.navigateTo({
-        url: '/pages/class/addclass?id='+this.data.course_id
-    });
-  },
-
   bindClassTap: function(e) {
-    console.log(e.currentTarget.dataset.classid);
-      wx.navigateTo({
-        url: '/pages/class/classstudent?classid=' + this.data.course_id
-      });
-      wx.setStorage({//将小班课程id存入缓存
-        key: 'smallclassid',
-        data: e.currentTarget.dataset.classid,
-      })
+    wx.navigateTo({
+        url: '/pages/question/setquestion?exam_id='+e.currentTarget.dataset.id+'&course_id='+this.data.course_id
+    });
   }
 })

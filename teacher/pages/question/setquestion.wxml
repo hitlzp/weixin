@@ -1,0 +1,14 @@
+<!--pages/question/setquestion.wxml-->
+<view class="container">
+<scroll-view scroll-y="true" style="height: 100%;border-bottom:1px solid #e6e6e6;">
+    <checkbox-group bindchange="checkboxChange">
+        <label class="checkbox" wx:for="{{array}}" wx:for-item="item">
+            <checkbox value="{{item.question_id}}" checked="{{item.checked}}"/>
+            <text>{{item.subject}}</text>
+        </label>
+    </checkbox-group>
+    <view class="fixedBottomView">
+        <button bindtap="bindcomPractice" class="com-btn">创建练习</button>
+    </view>
+</scroll-view>
+</view>

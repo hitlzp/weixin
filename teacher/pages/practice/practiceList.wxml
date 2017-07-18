@@ -1,0 +1,23 @@
+<!--pages/practice/practiceList.wxml-->
+<view class="container">
+    <scroll-view scroll-y="true" style="height:{{windowHeight}}px;border-bottom:1px solid #e6e6e6;" upper-threshold="50px" lower-threshold="50px" bindscrolltoupper="UpperEventHandle">
+        <view name="class-show" wx:for="{{array}}" wx:for-item="item" wx:key="{{practiceId}}">
+            <view class="scroll-view-item" bindtap="bindClassTap" >
+                <view class="left-section">
+                    <view class="text-view">      
+                        <text class="class-title">{{item.practiceName}}</text>
+                    </view>
+                    <view class="img-view">      
+                        <text class="time-text">开始时间：{{item.startDate}} {{item.startTime}}</text>
+                    </view>
+                    <view class="img-view">      
+                        <text class="time-text">结束时间：{{item.endDate}} {{item.endTime}}</text>
+                    </view>
+                </view>
+                <view class="right-section">
+                    <button class="view-btn" bindtap="viewScore" data-practiceId="{{item.practiceId}}">查看成绩</button>
+                </view>
+            </view>
+        </view>
+    </scroll-view>
+</view>

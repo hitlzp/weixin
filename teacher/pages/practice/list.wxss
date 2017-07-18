@@ -1,0 +1,49 @@
+/* pages/practice/list.wxss */
+.radio {
+    display: block;
+    padding: 4px 10px;
+    font-size: 14px;
+}
+.course-title {
+    font-size: 16px;
+    padding: 3px 10px;
+}
+.scroll-view-item {
+    margin-top: 20px;
+    width: 100%;    
+}
+.sub-btn {
+    width: 100px;
+    height: 30px;
+    line-height: 30px;
+    background-color: #9acd32;
+}
+.btn-section {
+    position: fixed;
+    bottom: 0;
+    left: 50%;
+    margin-left: -50px;
+}
+.option-list {
+    padding: 6px 10px;
+}
+.option {
+    font-size: 14px;
+    color: #878e87;
+    width: 92%;
+    float: left;
+    margin-bottom: 8px;
+}
+.option-num {
+    float: right;
+    width: 7%;
+    text-align: center;
+    color: #f36f04;
+    font-weight: bold;
+}
+.true-answer {
+  background-color: #9acd32;
+  padding: 3px 8px;
+  font-size: 14px;
+  clear: both;
+}

@@ -5,13 +5,21 @@
     "pages/register/register",
     "pages/class/addclass",
     "pages/class/class",
-    "pages/class/classstudent"
+    "pages/class/classstudent",
+    "pages/question/examlist",
+    "pages/question/setquestion",
+    "pages/practice/startpractice",
+    "pages/practice/grades",
+    "pages/practice/list",
+    "pages/practice/practiceList"
+    
   ],
   "window":{
     "backgroundTextStyle":"light",
     "navigationBarBackgroundColor": "#fff",
     "navigationBarTitleText": "翻转课堂-教师",
-    "navigationBarTextStyle":"black"
+    "navigationBarTextStyle":"black",
+    "enablePullDownRefresh":true
   },
   "tabBar": {
     "selectedColor": "#00ff00",

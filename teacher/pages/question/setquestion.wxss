@@ -1,0 +1,18 @@
+/* pages/question/setquestion.wxss */
+.text-view {
+    padding: 10px;
+}
+.checkbox {
+    display: block;
+    padding: 10px;
+}
+.fixedBottomView {
+    position: fixed;
+    bottom: 0;
+    right: 0;
+}
+.com-btn {
+    line-height: 30px;
+    border-radius: 6px;
+    background-color: #9acd32;
+}

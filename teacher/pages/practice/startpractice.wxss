@@ -1,0 +1,60 @@
+/* pages/practice/startpractice.wxss */
+.date-section, .time-section {
+    display: inline-block;
+    width: 25%;
+}
+.date-section {
+    width: 75%;
+    margin-top: 10px;
+}
+.picker {
+    display: inline-block;
+    width: 50%;
+    color: #00ff00;
+}
+.num-tips {
+    text-align: center;
+}
+.question-num {
+    color: #00ff00;
+    font-weight: bold;
+}
+.choose-class {
+    padding: 4px 10px;
+    margin-top: 10px;
+}
+.class-item {
+    line-height: 30px;
+    padding: 4px 20px;
+    color: #00ff00
+}
+.practice-name {
+    margin-top: 10px;
+    padding: 10px;
+    border-top: 1px solid #00ff00;
+    border-bottom: 1px solid #00ff00;
+}
+.sub-btn {
+    height: 30px;
+    line-height: 30px;
+    border-radius: 6px;
+    background-color: #9acd32;
+    margin-top: 20px;
+    width: 50%;
+}
+.practice-num {
+    margin-top: 10px;
+    padding-left: 10px;
+    height: 36px;
+    line-height: 36px;
+    display: flex;
+    align-items: center;
+}
+.practice-num input{
+    display: inline-block;
+    width: 26px;
+    height: 26px;
+    line-height: 26px;
+    border: 1px solid #00ff00;
+    padding: 4px;
+}

@@ -1,7 +1,7 @@
 <!--index.wxml-->
 <view class="container">
   <scroll-view scroll-y="true" style="height: 100%;">
-    <view name="course-show" wx:for="{{array}}" wx:for-item="item">
+    <view name="course-show" wx:for="{{array}}" wx:for-item="item" wx:key="key">
       <view class="scroll-view-item" data-id="{{item.course_id}}" data-name="{{item.course_name}}" bindtap="bindCourseTap">
         <view class="text-view">      
           <text class="course-title">{{item.course_name}}</text>

@@ -4,7 +4,7 @@
     <button class="btn-left" bindtap="createClass">创建课程班</button>
 </view>
 <scroll-view scroll-y="true" style="height: 100%;border-bottom:1px solid #e6e6e6;">
-    <view name="class-show" wx:for="{{array}}" wx:for-item="item">
+    <view name="class-show" wx:for="{{array}}" wx:for-item="item" wx:key="key">
         <view class="scroll-view-item" data-classid="{{item.class_id}}" bindtap="bindClassTap">
             <view class="text-view">      
                 <text class="class-title">{{item.name}}{{item.class_id}}</text>

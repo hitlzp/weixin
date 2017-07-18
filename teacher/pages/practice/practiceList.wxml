@@ -1,6 +1,6 @@
 <!--pages/practice/practiceList.wxml-->
 <view class="container">
-    <scroll-view scroll-y="true" style="height:{{windowHeight}}px;border-bottom:1px solid #e6e6e6;" upper-threshold="50px" lower-threshold="50px" bindscrolltoupper="UpperEventHandle">
+    <scroll-view scroll-y="true" style="height:{{windowHeight}}px;border-bottom:1px solid #e6e6e6;" scroll-top="50px"  bindscrolltoupper="refresh">
         <view name="class-show" wx:for="{{array}}" wx:for-item="item" wx:key="{{practiceId}}">
             <view class="scroll-view-item" bindtap="bindClassTap" >
                 <view class="left-section">
@@ -20,4 +20,9 @@
             </view>
         </view>
     </scroll-view>
+    <view class="body-view">
+    <loading hidden="{{hidden}}" bindchange="loadingChange">
+      加载中...
+    </loading>
+  </view>
 </view>

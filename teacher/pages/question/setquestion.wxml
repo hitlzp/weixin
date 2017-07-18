@@ -2,7 +2,7 @@
 <view class="container">
 <scroll-view scroll-y="true" style="height: 100%;border-bottom:1px solid #e6e6e6;">
     <checkbox-group bindchange="checkboxChange">
-        <label class="checkbox" wx:for="{{array}}" wx:for-item="item">
+        <label class="checkbox" wx:for="{{array}}" wx:for-item="item" wx:key="key">
             <checkbox value="{{item.question_id}}" checked="{{item.checked}}"/>
             <text>{{item.subject}}</text>
         </label>

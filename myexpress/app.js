@@ -297,7 +297,6 @@ app.get('/gradeList', function (req, res) {
 		res_body.student_num = result[0].student_num;
 		connection.query(gradeSql, function (err, result) {
 			res_body.list = result;
-			console.log(result);
 			res.send(JSON.stringify(res_body));
 		});
 	});

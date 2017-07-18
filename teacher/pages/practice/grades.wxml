@@ -23,4 +23,16 @@
             <view class="td">{{item.goodNum}}/{{item.totalNum}}</view>    
         </view>  
     </block>
+    <block wx:for="{{listData2}}" wx:key="{{code}}">    
+        <view class="tr2 bg-g" wx:if="{{index % 2 == 0}}">      
+            <view class="td">{{item.student_id}}</view>      
+            <view class="td">{{item.name}}</view>      
+            <view class="td">无</view>    
+        </view>    
+        <view class="tr2" wx:else>      
+            <view class="td">{{item.student_id}}</view>      
+            <view class="td">{{item.name}}</view>      
+            <view class="td">无</view>    
+        </view>  
+    </block>
 </view>

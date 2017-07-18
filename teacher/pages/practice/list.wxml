@@ -4,7 +4,7 @@
     <view name="course-show" wx:for="{{question_list}}" wx:for-item="item">
       <view class="scroll-view-item">
         <view class="text-view">      
-          <text class="course-title">{{item.index+1}}、{{item.subject}}</text>
+          <view class="course-title">{{item.index+1}}、{{item.subject}}</view>
         </view>
         <view class="option-list" wx:for="{{item.optionDetail}}" wx:for-item="optionItem">
             <view class="option">{{optionItem.content}}</view>
@@ -12,7 +12,7 @@
         </view>
       </view>
       <view class="true-answer">
-        {{item.total_analyse}};此题答题正确率为：{{item.trueRate}}
+        {{item.total_analyse}};正确率为：{{item.trueRate}}
       </view>
     </view>
   </scroll-view>

@@ -266,8 +266,7 @@ app.get('/practiceList', function (req, res) {
 app.get('/gradeList', function (req, res) {
 
 
-	var rr = 'select classId from practice where practiceId = '+req.query.practiceId,
-	res_body = {};
+	var rr = 'select classId from practice where practiceId = '+req.query.practiceId;
 
 	connection.query(rr, function (err, result) {
 		if(result.length != 0)
@@ -280,7 +279,13 @@ app.get('/gradeList', function (req, res) {
 			res_body.student_num = result.length;
 			connection.query(gradeSql, function (err, result) {
 				res_body.list = result;
-				res.send(JSON.stringify(res_body));
+
+				allstu = 'SELECT * FROM studentclass inner join student WHERE studentclass.student_id=student.student_id AND studentclass.class_id ='+myclassid+' and studentclass.student_id not in (SELECT student_id FROM studentpractice  WHERE  studentpractice.practice_id = '+req.query.practiceId+')';
+				//查询的是参加课程但未参与做题的学生信息
+				connection.query(allstu, function (err, result) {
+					res_body.list2 = result;
+					res.send(JSON.stringify(res_body));
+				})
 		});
 	});
 		}

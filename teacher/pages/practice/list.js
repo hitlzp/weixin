@@ -122,11 +122,7 @@ Page({
       }
 
       var total_analyse = "此题正确答案为：" + flag[res.answer] + ';';
-      for (var i = 0; i < new_list.length; i++) {
-          if (new_list[i].analyse) {
-              total_analyse += (flag[i] + '、' + new_list[i].analyse);
-          }
-      }
+      
       res.list = new_list;
       res.total_analyse = total_analyse;
       return res;

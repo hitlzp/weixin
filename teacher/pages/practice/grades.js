@@ -9,7 +9,8 @@ Page({
   data: {
     need_num: 0,
     real_num: 0,
-    listData: []
+    listData: [],
+    listData2: []
   },
 
   /**
@@ -30,13 +31,15 @@ Page({
             var grades_list = [],
                 num_list = [],
                 pie_list = [],
-                list = res.data.list;
+                list = res.data.list,
+                list2 = res.data.list2;
             for(var i=0;i<list.length;i++) {
                 if (grades_list.indexOf(list[i].grades)==-1) {
                     grades_list.push(list[i].grades);
                     num_list.push(0)
                 }
             }
+
             for(var i=0;i<list.length;i++) {
                 for(var j=0;j<grades_list.length;j++) {
                     if(list[i].grades==grades_list[j]) {
@@ -86,8 +89,10 @@ Page({
                 need_num: res.data.student_num,
                 real_num: list.length,
                 listData: list,
+                listData2: list2,
                 practiceId: options.practiceId
             })
+            console.log(list);
         }
     })
   },

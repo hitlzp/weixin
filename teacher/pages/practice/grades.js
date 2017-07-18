@@ -71,10 +71,10 @@ Page({
                 height: 300,
                 dataLabel: true,
                 series: [{
-                  name: '未完成学生',
-                  data: res.data.student_num,
+                  name: '未完成测试学生',
+                  data: res.data.student_num - list.length,
                 }, {
-                  name: '完成学生',
+                  name: '完成测试学生',
                   data: list.length,
                 }],
     

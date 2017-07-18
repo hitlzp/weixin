@@ -61,7 +61,7 @@ Page({
             } catch (e) {
                 console.error('getSystemInfoSync failed!');
             }
-
+            console.log(pie_list);
             pieChart = new wxCharts({
                 animation: true,
                 canvasId: 'pieCanvas',
@@ -70,6 +70,14 @@ Page({
                 width: windowWidth,
                 height: 300,
                 dataLabel: true,
+                series: [{
+                  name: '未完成学生',
+                  data: res.data.student_num,
+                }, {
+                  name: '完成学生',
+                  data: list.length,
+                }],
+    
             });
             self.setData({
                 need_num: res.data.student_num,

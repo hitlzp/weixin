@@ -61,7 +61,10 @@ Page({
             } catch (e) {
                 console.error('getSystemInfoSync failed!');
             }
-            console.log(pie_list);
+            if (res.data.student_num == 0)
+            {
+              res.data.student_num =1;
+            }
             pieChart = new wxCharts({
                 animation: true,
                 canvasId: 'pieCanvas',

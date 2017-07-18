@@ -29,6 +29,7 @@ Page({
   },
 
   onLoad:function(options){
+    GetList(this)
     var that =this
     wx.getSystemInfo({
       success: function (res) { 

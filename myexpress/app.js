@@ -203,8 +203,12 @@ app.get('/showQuestionList', function (req, res) {
 
 //教师选择训练题
 app.post('/setpractice', function (req, res) {
-	var str = req.body.endDate.replace(/\-/g,'')+req.body.classId;
-	var addUserSql = 'INSERT INTO practice(courseId,classId,practiceName,startDate,endDate,startTime,endTime,questionList,practiceNum,practiceId) VALUES(?,?,?,?,?,?,?,?,?,?)',
+	var str = '';
+
+	var sql = 'SELECT * from practice WHERE classId='+req.body.classId;
+	connection.query(sql, function (err, result) {
+        str = req.body.classId + result.length;
+        var addUserSql = 'INSERT INTO practice(courseId,classId,practiceName,startDate,endDate,startTime,endTime,questionList,practiceNum,practiceId) VALUES(?,?,?,?,?,?,?,?,?,?)',
 		addSqlParams = [req.body.courseId,req.body.classId,req.body.practiceName,req.body.startDate,req.body.endDate,req.body.startTime,req.body.endTime,req.body.questionList.toString(),req.body.practiceNum,str],
 		res_body;
 	connection.query(addUserSql, addSqlParams, function (err, result) {
@@ -231,6 +235,8 @@ app.post('/setpractice', function (req, res) {
         	}
         });
 	});
+    })
+	
 });
 
 
@@ -256,50 +262,29 @@ app.get('/practiceList', function (req, res) {
 });
 
 
-//教师点击创建习题按钮，新的习题集存储在数据库
-app.post('/setpractice', function (req, res) {
-	var str = req.body.endDate.replace(/\-/g,'')+req.body.classId;
-	var addUserSql = 'INSERT INTO practice(courseId,classId,practiceName,startDate,endDate,startTime,endTime,questionList,practiceNum,practiceId) VALUES(?,?,?,?,?,?,?,?,?,?)',
-		addSqlParams = [req.body.courseId,req.body.classId,req.body.practiceName,req.body.startDate,req.body.endDate,req.body.startTime,req.body.endTime,req.body.questionList.toString(),req.body.practiceNum,str],
-		res_body;
-	connection.query(addUserSql, addSqlParams, function (err, result) {
-  		res_body = {
-  			add_success: 1
-  		}
-        res.send(res_body);
-        var sql = 'SELECT student_id FROM studentclass WHERE class_id='+req.body.classId;
-        connection.query(sql, function (err, result) {
-        	var questionNum = req.body.questionList.length;
-        	for(var i=0;i<result.length;i++) {
-        		var already_num = [];
-        		for(var j=0;j<req.body.practiceNum;j++) {
-        			var num = Math.ceil(Math.random()*(questionNum-1));
-        			while(already_num.indexOf(num)!=-1) {
-        				num = Math.ceil(Math.random()*(questionNum-1))
-        			}
-        			already_num.push(num);
-        			var	addSql = 'INSERT INTO grades(question_id,student_id,practice_id) VALUES(?,?,?)',
-        				addParams = [req.body.questionList[num],result[i].student_id,str];
-        			connection.query(addSql, addParams, function (err, result) {
-        			})
-        		}
-        	}
-        });
-	});
-});
-
 //教师端显示本次测验总体成绩
 app.get('/gradeList', function (req, res) {
-	var sql = 'SELECT class.student_num FROM class inner join practice WHERE class.class_id=practice.classId AND practice.practiceId='+req.query.practiceId,
-		res_body = {};
-	connection.query(sql, function (err, result) {
-		var gradeSql = 'SELECT * FROM studentpractice inner join student WHERE studentpractice.student_id=student.student_id AND studentpractice.practice_id ='+req.query.practiceId;
-		res_body.student_num = result[0].student_num;
-		connection.query(gradeSql, function (err, result) {
-			res_body.list = result;
-			res.send(JSON.stringify(res_body));
+
+
+	var rr = 'select classId from practice where practiceId = '+req.query.practiceId,
+	res_body = {};
+
+	connection.query(rr, function (err, result) {
+		if(result.length != 0)
+		{
+			myclassid = result[0].classId //先从practice表中查出当前练习对应的翻转班id
+			var sql = 'select * from studentclass where class_id = '+myclassid,
+			res_body = {};
+			connection.query(sql, function (err, result) {
+			var gradeSql = 'SELECT * FROM studentpractice inner join student WHERE studentpractice.student_id=student.student_id AND studentpractice.practice_id ='+req.query.practiceId;
+			res_body.student_num = result.length;
+			connection.query(gradeSql, function (err, result) {
+				res_body.list = result;
+				res.send(JSON.stringify(res_body));
 		});
 	});
+		}
+	})
 });
 
 

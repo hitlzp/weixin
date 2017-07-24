@@ -1,17 +1,21 @@
 // pages/practice/list.js
+var WxParse = require('../../wxParse/wxParse.js');
 Page({
 
   /**
    * 页面的初始数据
    */
   data: {
-    question_list: []
+    question_list: [],
+    yy:'1'
   },
 
   /**
    * 生命周期函数--监听页面加载
    */
   onLoad: function (options) {
+    var replyArr = [];
+    var new_list2 = [];
     var self = this;
     wx.request({
       url: getApp().globalData.yurl +'/examQuestionList',
@@ -35,18 +39,36 @@ Page({
                 },
                 success: function (res) {
                     var question_list = res.data,
+                        oneString = '',
                         detail_list = [];
                     for (var i = 0; i < question_list.length; i++) {
+                        oneString = ''
+                        oneString = oneString + (Number(i) + 1).toString()+ '、'
                         question_list[i].index = i;
+
                         var option = question_list[i].optionDetail;
                         question_list[i].subject = unescape(question_list[i].subject.replace(/\\u/g, "%u"));
                         question_list[i].subject = question_list[i].subject.replace(/&nbsp;/g, '')
+                        oneString = '<div class = "course-title">'+oneString + question_list[i].subject.replace(/&nbsp;/g, '')+'</div>'
+
                         option = unescape(option.replace(/\\u/g, "%u"));
                         question_list[i].optionDetail = option.slice(1, option.length - 1); 
-                        var lr = self.parseOption(question_list[i].optionDetail.split(','));
+                        var lr = self.parseOption(question_list[i].optionDetail.split(','), new_list2);
                         question_list[i].optionDetail = lr.list;
+
+                        oneString = oneString + '<div class = "option-list">'
+                        for (var k = 0; k < lr.list.length; k++) {
+                          oneString = oneString + '<div class = "option">'
+                          oneString = oneString + lr.list[k].content+'<div></div>'
+                          oneString = oneString + '</div>'
+                        }
+                        oneString = oneString + '</div>'
+
                         question_list[i].answer = lr.answer;
                         question_list[i].total_analyse = lr.total_analyse;
+                        oneString = oneString + '<div class="true-answer" style = "width:100%">' +lr.total_analyse
+
+                        replyArr.push(oneString)
                     }
 
                     for(var i=0;i<question_list.length;i++) {
@@ -74,16 +96,27 @@ Page({
                             trueRate = 0;
                         }
                         question_list[i].trueRate = (Math.round(trueRate * 10000) / 100).toFixed(2) + '%'
+                        replyArr[i] = replyArr[i] + '正确率为：' + (Math.round(trueRate * 10000) / 100).toFixed(2) + '%</div><br></br>'
                     }
                     self.setData({
                         question_list: question_list
                     })
+                    console.log(replyArr)
+                    console.log(new_list2)
+                    for (let i = 0; i < replyArr.length; i++) {
+                      WxParse.wxParse('reply' + i, 'html', replyArr[i], self);
+                      if (i === replyArr.length - 1) {
+                        WxParse.wxParseTemArray("replyTemArray", 'reply', replyArr.length, self)
+                      }
+                    }
+                    
                 }
             })
         }
     })
+    
   },
-  parseOption: function (option_list) {
+  parseOption: function (option_list, new_list2) {
       var loop_num = option_list.length / 4,
           new_list = [],
           res = {},
@@ -119,8 +152,15 @@ Page({
               }
           }
           new_list.push(option_obj);
+          new_list2.push(option_obj.content);
+          //console.log(option_obj.content);
+          //console.log(77777);
+          
+         //WxParse.wxParse('content', 'html', option_obj.content, this, 5)
+         // wxParseData: WxParse('content', option_obj.content)
       }
-
+      //console.log(1111)
+      //console.log(new_list[0]);
       var total_analyse = "此题正确答案为：" + flag[res.answer] + ';';
       
       res.list = new_list;

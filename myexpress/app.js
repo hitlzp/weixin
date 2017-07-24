@@ -208,8 +208,8 @@ app.post('/setpractice', function (req, res) {
 	var sql = 'SELECT * from practice WHERE classId='+req.body.classId;
 	connection.query(sql, function (err, result) {
         str = req.body.classId + result.length;
-        var addUserSql = 'INSERT INTO practice(courseId,classId,practiceName,startDate,endDate,startTime,endTime,questionList,practiceNum,practiceId) VALUES(?,?,?,?,?,?,?,?,?,?)',
-		addSqlParams = [req.body.courseId,req.body.classId,req.body.practiceName,req.body.startDate,req.body.endDate,req.body.startTime,req.body.endTime,req.body.questionList.toString(),req.body.practiceNum,str],
+        var addUserSql = 'INSERT INTO practice(courseId,classId,practiceName,startDate,endDate,startTime,endTime,questionList,practiceNum,practiceId,showendbtn,showgradebtn) VALUES(?,?,?,?,?,?,?,?,?,?,?,?)',
+		addSqlParams = [req.body.courseId,req.body.classId,req.body.practiceName,req.body.startDate,req.body.endDate,req.body.startTime,req.body.endTime,req.body.questionList.toString(),req.body.practiceNum,str,'','none'],
 		res_body;
 	connection.query(addUserSql, addSqlParams, function (err, result) {
   		res_body = {
@@ -315,6 +315,17 @@ app.get('/questionList', function (req, res) {
 		});
 	}
 });
+
+//教师点击结束做题按钮，按钮变为查看成绩，并刷新页面
+app.get('/endbtnToshowbtn', function (req, res) {
+	var sql = 'update practice set showendbtn = \"none\",showgradebtn=\"\"  where practiceId = '+ req.query.practice_id;
+	connection.query(sql, function (err, result) {
+		res.send(JSON.stringify(result));
+	});
+});
+
+
+
 
 app.listen(3000,function(){
 	console.log('server start ....');

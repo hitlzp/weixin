@@ -14,7 +14,10 @@
                         <text class="time-text">结束时间：{{item.endDate}} {{item.endTime}}</text>
                     </view>
                 </view>
-                <view class="right-section">
+                <view class="right-section" style="display:{{item.showendbtn}}">
+                    <button class="view-btn" bindtap="stopScore" data-practiceId="{{item.practiceId}}">停止答题</button>
+                </view>
+                <view class="right-section" style="display:{{item.showgradebtn}}">
                     <button class="view-btn" bindtap="viewScore" data-practiceId="{{item.practiceId}}">查看成绩</button>
                 </view>
             </view>

@@ -29,7 +29,6 @@ Page({
   },
 
   onLoad:function(options){
-    GetList(this)
     var that =this
     wx.getSystemInfo({
       success: function (res) { 
@@ -55,6 +54,26 @@ Page({
     console.log(e.target.dataset.practiceid);
     wx.navigateTo({
         url: '/pages/practice/grades?practiceId=' + e.target.dataset.practiceid
+    })
+  },
+
+  stopScore: function (e) {
+    var that = this;
+    wx.request({
+      url: getApp().globalData.yurl + '/endbtnToshowbtn',
+      method: 'GET',
+      data: {
+        practice_id:e.target.dataset.practiceid
+      },
+      header: {
+        'content-type': 'application/json'
+      },
+      success: function (res) {
+        that.setData({
+          array: res.data
+        })
+        GetList(that);
+      }
     })
   }
 })

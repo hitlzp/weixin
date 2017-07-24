@@ -24,8 +24,8 @@
         </view>
     </scroll-view>
     <view class="body-view">
-    <loading hidden="{{hidden}}" bindchange="loadingChange">
+    <!--<loading hidden="{{hidden}}" bindchange="loadingChange">
       加载中...
-    </loading>
+    </loading>-->
   </view>
 </view>

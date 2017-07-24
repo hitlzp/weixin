@@ -4,7 +4,7 @@
   <scroll-view scroll-y="true" style="height: 100%;padding-bottom: 20px;">
       <view class="scroll-view-item">
         <view style="padding: 20px 10px; background-color:#eee;">
-          <block wx:for="{{replyTemArray}}" wx:key="" >
+          <block wx:for="{{replyTemArray}}" wx:key="item" >
             <template is="wxParse" data="{{wxParseData:item}}"/>
           </block>
         </view>

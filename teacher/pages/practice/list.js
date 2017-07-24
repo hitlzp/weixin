@@ -50,6 +50,15 @@ Page({
                         question_list[i].subject = unescape(question_list[i].subject.replace(/\\u/g, "%u"));
                         question_list[i].subject = question_list[i].subject.replace(/&nbsp;/g, '')
                         oneString = '<div class = "course-title">'+oneString + question_list[i].subject.replace(/&nbsp;/g, '')+'</div>'
+                        
+                        var totalimgurl = question_list[i].imgUrl.split(',')
+                        for(var w = 0; w < totalimgurl.length;w++)
+                        {
+                          if (totalimgurl[w] != '')
+                          {
+                            oneString = oneString + '<img src = ' + totalimgurl[w] + ' style = "width:400px">'
+                          }
+                        }
 
                         option = unescape(option.replace(/\\u/g, "%u"));
                         question_list[i].optionDetail = option.slice(1, option.length - 1); 
@@ -101,7 +110,6 @@ Page({
                     self.setData({
                         question_list: question_list
                     })
-                    console.log(replyArr)
                     console.log(new_list2)
                     for (let i = 0; i < replyArr.length; i++) {
                       WxParse.wxParse('reply' + i, 'html', replyArr[i], self);

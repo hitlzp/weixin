@@ -31,7 +31,7 @@
 .option {
     font-size: 14px;
     color: #878e87;
-    width: 92%;
+    width: 90%;
     float: left;
     margin-bottom: 8px;
 }

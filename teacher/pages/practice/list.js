@@ -75,7 +75,6 @@ Page({
 
                         question_list[i].answer = lr.answer;
                         question_list[i].total_analyse = lr.total_analyse;
-                        oneString = oneString + '<div class="true-answer" style = "width:100%">' +lr.total_analyse
 
                         replyArr.push(oneString)
                     }
@@ -88,7 +87,6 @@ Page({
                             }
                         }
                     }
-
                     for(var i=0;i<question_list.length;i++) {
                         var detail = detail_list[i],
                             trueNum = 0;
@@ -98,14 +96,26 @@ Page({
                             }
                             var choose = parseInt(detail[j].postAnswer);
                             
-                            question_list[i].optionDetail[choose].choose++;
+                            question_list[i].optionDetail[choose].choose = question_list[i].optionDetail[choose].choose + detail[j].name + '、';
                         }
                         var trueRate = trueNum/detail.length;
                         if(isNaN(trueRate)){
                             trueRate = 0;
                         }
                         question_list[i].trueRate = (Math.round(trueRate * 10000) / 100).toFixed(2) + '%'
-                        replyArr[i] = replyArr[i] + '正确率为：' + (Math.round(trueRate * 10000) / 100).toFixed(2) + '%</div><br></br>'
+                        replyArr[i] = replyArr[i] + '<div class="true-answer" style = "width:100%">正确率：' + (Math.round(trueRate * 10000) / 100).toFixed(2) + '%'
+                        console.log(question_list[i].optionDetail)
+                        for (var uu = 0; uu < question_list[i].optionDetail.length;uu++)
+                        {
+                          if (question_list[i].optionDetail[uu].answer == true)
+                          {
+                            replyArr[i] = replyArr[i] + '<div style = "color:#0000FF">'+question_list[i].optionDetail[uu].theflag + question_list[i].optionDetail[uu].choose + '</div>'
+                          }
+                          else {
+                            replyArr[i] = replyArr[i] + '<div style = "color:#FF0000">' + question_list[i].optionDetail[uu].theflag + question_list[i].optionDetail[uu].choose + '</div>'
+                          }
+                        }
+                        replyArr[i] = replyArr[i] + '</div><br></br>'
                     }
                     self.setData({
                         question_list: question_list
@@ -145,9 +155,10 @@ Page({
                 if (re_content.test(str)) {
                     var content = RegExp.$1;
                     option_obj.content = flag[i] + '、' + content;
+                    option_obj.theflag = flag[i] + '：';
                     option_obj.content = option_obj.content.replace(/&nbsp;/g, '');
                     option_obj.content = option_obj.content.replace(/&gt;/g, '');
-                    option_obj.choose = 0;
+                    option_obj.choose = '';
                 } else if (re_true_ans.test(str)) {
                     option_obj.answer = true;
                     res.answer = i;
@@ -161,14 +172,7 @@ Page({
           }
           new_list.push(option_obj);
           new_list2.push(option_obj.content);
-          //console.log(option_obj.content);
-          //console.log(77777);
-          
-         //WxParse.wxParse('content', 'html', option_obj.content, this, 5)
-         // wxParseData: WxParse('content', option_obj.content)
       }
-      //console.log(1111)
-      //console.log(new_list[0]);
       var total_analyse = "此题正确答案为：" + flag[res.answer] + ';';
       
       res.list = new_list;

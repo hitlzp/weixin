@@ -294,8 +294,9 @@ app.get('/gradeList', function (req, res) {
 
 
 app.get('/examQuestionList', function (req, res) {
-	var sql = 'SELECT * FROM grades WHERE practice_id='+req.query.practiceId;
+	var sql = 'SELECT grades.question_id,grades.student_id,grades.answer,grades.postAnswer,student.name FROM grades inner join student WHERE grades.student_id = student.student_id and grades.practice_id='+req.query.practiceId;
 	connection.query(sql, function (err, result) {
+		console.log(result)
 		res.send(JSON.stringify(result));
 	});
 });

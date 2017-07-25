@@ -157,7 +157,6 @@ app.get('/showClassList', function (req, res) {
 			{
 					var qq = 'SELECT class_id, count(class_id) as sumstu from studentclass where course_id = '+req.query.course_id+' group by class_id';
 					connection.query(qq, function (err, rows) {
-						console.log(rows)
 						if(rows)
 						{
 							for(var w=0; w < rows.length;w++)
@@ -233,30 +232,33 @@ app.post('/setpractice', function (req, res) {
 		addSqlParams = [req.body.courseId,req.body.classId,req.body.practiceName,req.body.startDate,req.body.endDate,req.body.startTime,req.body.endTime,req.body.questionList.toString(),req.body.practiceNum,str,'','none'],
 		res_body;
 	connection.query(addUserSql, addSqlParams, function (err, result) {
-  		res_body = {
-  			add_success: 1
+		res_body = {
+  			practice_id: str,
   		}
-        res.send(res_body);
-        var sql = 'SELECT student_id FROM studentclass WHERE class_id='+req.body.classId;
-        connection.query(sql, function (err, result) {
-        	var questionNum = req.body.questionList.length;
-        	for(var i=0;i<result.length;i++) {
-        		var already_num = [];
-        		for(var j=0;j<req.body.practiceNum;j++) {
-        			var num = Math.ceil(Math.random()*(questionNum-1));
-        			while(already_num.indexOf(num)!=-1) {
-        				num = Math.ceil(Math.random()*(questionNum-1))
-        			}
-        			already_num.push(num);
-        			var	addSql = 'INSERT INTO grades(question_id,student_id,practice_id) VALUES(?,?,?)',
-        				addParams = [req.body.questionList[num],result[i].student_id,str];
-        			connection.query(addSql, addParams, function (err, result) {
-        			})
-        		}
-        	}
-        });
-	});
+		var sql1 = 'select student_id from studentclass where class_id = '+req.body.classId;
+		connection.query(sql1, function (err, result) {
+			res_body.allstu = result;
+			res.send(res_body);
+		})
+		});
     })
+    
+	
+});
+
+//新建习题集后将有关数据保存到grades表中
+app.post('/savegradesconfig', function (req, res) {
+	for(var i=0; i <req.body.questionlist.length;i++)
+	{
+		for(var j=0; j < req.body.studentlist.length;j++)
+		{
+			var sql1 = 'insert into grades(question_id, student_id, practice_id)values(?,?,?)',
+			addSqlParams = [req.body.questionlist[i], req.body.studentlist[j], req.body.practiceid];
+			connection.query(sql1, addSqlParams, function (err, result) {
+			})
+		}
+	}
+	res.send('ok');
 	
 });
 

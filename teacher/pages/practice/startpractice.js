@@ -77,7 +77,6 @@ Page({
   },
   bindChangePick: function (e) {
     var self = this;
-    console.log(self.data.class_list, e.detail.value)
     this.setData({
       choose_class: self.data.class_list[e.detail.value[0]].name,
       classId: self.data.class_list[e.detail.value[0]].class_id
@@ -134,8 +133,27 @@ Page({
         'content-type': 'application/json'
       },
       success: function (res) {
-        wx.switchTab({
-          url: "/pages/practice/practiceList"
+        var studentlist =[]
+        for(var w =0; w < res.data.allstu.length;w++)
+        {
+          studentlist.push(res.data.allstu[w].student_id)
+        }
+        wx.request({
+          url: getApp().globalData.yurl + '/savegradesconfig',
+          method: 'POST',
+          data: {
+            practiceid: res.data.practice_id,
+            questionlist: self.data.questionList,
+            studentlist:studentlist
+          },
+          header: {
+            'content-type': 'application/json'
+          },
+          success: function (res) {
+            wx.switchTab({
+              url: "/pages/practice/practiceList"
+            })
+          }
         })
       }
     })

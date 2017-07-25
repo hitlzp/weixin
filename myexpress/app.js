@@ -153,7 +153,28 @@ app.get('/showClassList', function (req, res) {
    				res.send(JSON.stringify(res_body));
 			});
 		}else {
-        	res.send(JSON.stringify(result));
+			if(result)
+			{
+					var qq = 'SELECT class_id, count(class_id) as sumstu from studentclass where course_id = '+req.query.course_id+' group by class_id';
+					connection.query(qq, function (err, rows) {
+						console.log(rows)
+						if(rows)
+						{
+							for(var w=0; w < rows.length;w++)
+							{
+								for(var k = 0; k < result.length;k++)
+								{
+									if(result[k].class_id == rows[w].class_id)
+									{
+										result[k].student_num= rows[w].sumstu;
+									}
+								}
+							}
+						}
+						res.send(JSON.stringify(result));
+					});
+			}
+			
 		}
 
 	});
@@ -296,7 +317,6 @@ app.get('/gradeList', function (req, res) {
 app.get('/examQuestionList', function (req, res) {
 	var sql = 'SELECT grades.question_id,grades.student_id,grades.answer,grades.postAnswer,student.name FROM grades inner join student WHERE grades.student_id = student.student_id and grades.practice_id='+req.query.practiceId;
 	connection.query(sql, function (err, result) {
-		console.log(result)
 		res.send(JSON.stringify(result));
 	});
 });

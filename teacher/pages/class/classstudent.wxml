@@ -2,6 +2,6 @@
 <view class="container">
   <view class="btn-section">
       <button bindtap="setquestion">布置训练题</button>
-      <button bindtap="premakegroup">出席分组</button>
+      <button bindtap="cominglist">学生签到</button>
   </view>
 </view>

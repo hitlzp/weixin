@@ -1,0 +1,31 @@
+<!--coming.wxml-->
+<view class="btn-section">
+    <button class="btn-left" disabled = "{{startbtnstate}}" bindtap="startsign">开始签到</button>
+    <button class="btn-right" disabled = "{{endbtnstate}}" bindtap="endsign">结束签到</button>
+</view>
+<view class="table">  
+    <view class="tr bg-w">    
+        <view class="th">学号</view>    
+        <view class="th">姓名</view>    
+    </view>  
+    <block wx:for="{{listData}}" wx:key="{{code}}">    
+        <view class="tr bg-g" wx:if="{{index % 2 == 0}}">      
+            <view class="td">{{item.student_id}}</view>      
+            <view class="td">{{item.name}}</view>      
+        </view>    
+        <view class="tr" wx:else>      
+            <view class="td">{{item.student_id}}</view>      
+            <view class="td">{{item.name}}</view>      
+        </view>  
+    </block>
+    <block wx:for="{{listData2}}" wx:key="{{code}}">    
+        <view class="tr2 bg-g" wx:if="{{index % 2 == 0}}">      
+            <view class="td">{{item.student_id}}</view>      
+            <view class="td">{{item.name}}</view>      
+        </view>    
+        <view class="tr2" wx:else>      
+            <view class="td">{{item.student_id}}</view>      
+            <view class="td">{{item.name}}</view>      
+        </view>  
+    </block>
+</view>

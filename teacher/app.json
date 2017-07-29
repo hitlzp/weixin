@@ -1,5 +1,5 @@
 {
-  "pages":[
+  "pages": [
     "pages/index/index",
     "pages/login/login",
     "pages/register/register",
@@ -11,15 +11,15 @@
     "pages/practice/startpractice",
     "pages/practice/grades",
     "pages/practice/list",
-    "pages/practice/practiceList"
-    
+    "pages/practice/practiceList",
+    "pages/coming/coming"
   ],
-  "window":{
-    "backgroundTextStyle":"light",
+  "window": {
+    "backgroundTextStyle": "light",
     "navigationBarBackgroundColor": "#fff",
     "navigationBarTitleText": "翻转课堂-教师",
-    "navigationBarTextStyle":"black",
-    "enablePullDownRefresh":true
+    "navigationBarTextStyle": "black",
+    "enablePullDownRefresh": true
   },
   "tabBar": {
     "selectedColor": "#00ff00",

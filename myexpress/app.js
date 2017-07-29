@@ -347,7 +347,44 @@ app.get('/endbtnToshowbtn', function (req, res) {
 	});
 });
 
+//根据class表中attend的值为0或1设置开始签到和结束签到按钮状态
+app.get('/classstate', function (req, res) {
+	var sql = 'select attend from class where class_id = '+ req.query.class_id;
+	connection.query(sql, function (err, result) {
+		res.send(JSON.stringify(result));
+	});
+});
 
+
+//教师点击开始签到按钮
+app.get('/startsign', function (req, res) {
+	var sql = 'update class set attend = 1 where class_id = '+ req.query.class_id;
+	connection.query(sql, function (err, result) {
+		res.send(req.query.class_id);
+	});
+});
+
+//教师点击结束签到按钮
+app.get('/endsign', function (req, res) {
+	var sql = 'update class set attend = 0 where class_id = '+ req.query.class_id;
+	connection.query(sql, function (err, result) {
+		res.send(req.query.class_id);
+	});
+});
+
+//显示学生出席情况列表
+app.get('/showstulist', function (req, res) {
+	var sql1 = 'select student.student_id, student.name from attend inner join student where attend.studentID = student.student_id and attend.class_id ='+ req.query.class_id,
+	res_body = {};
+	connection.query(sql1, function (err, result) {
+		res_body.comedstudent = result;
+		var sql2 = 'select student.student_id, student.name from studentclass inner join student where student.student_id = studentclass.student_id and studentclass.class_id  = '+req.query.class_id+' and studentclass.student_id not in (select studentID from attend where class_id = '+req.query.class_id+')';
+		connection.query(sql2, function (err, result) {
+			res_body.notcomestudent = result;
+			res.send(res_body);
+		});//查询未签到学生信息
+	});//查询已签到学生信息
+});
 
 
 app.listen(3000,function(){

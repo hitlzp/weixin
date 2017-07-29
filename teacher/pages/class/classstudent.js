@@ -7,7 +7,7 @@ Page({
     // 页面初始化 options为页面跳转所带来的参数
     var self = this;
     self.setData({
-      course_id: options.classid
+      course_id: options.classid,
     })
   },
   onReady: function () {
@@ -27,5 +27,17 @@ Page({
     wx.navigateTo({
       url: '/pages/question/examlist?id=' + this.data.course_id
     });
-  }
+  },
+  cominglist: function () {
+    wx.getStorage({
+      key: 'smallclassid',
+      success: function (res) {
+        wx.navigateTo({
+          url: '/pages/coming/coming?id=' + res.data
+        });
+
+      }
+    })
+  },
+
 })

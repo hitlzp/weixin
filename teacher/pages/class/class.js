@@ -42,7 +42,7 @@ Page({
   },
 
   bindClassTap: function(e) {
-    console.log(e.currentTarget.dataset.classid);
+    //console.log(e.currentTarget.dataset.classid);
       wx.navigateTo({
         url: '/pages/class/classstudent?classid=' + this.data.course_id
       });

@@ -335,13 +335,24 @@ app.get('/questionList', function (req, res) {
 			res.send(JSON.stringify(result));
 		});
 	}else {
-		var sql = 'SELECT subject,optionDetail,imgUrl,question_id from question WHERE question_id in (SELECT question_id from grades WHERE practice_id= ? )',
-			params = [req.query.practice_id];
-		connection.query(sql,params, function (err, result) {
+		var sql = 'select questionList from practice where practiceId='+req.query.practice_id;//先读出当前练习的所有习题的id
+		connection.query(sql,function (err, result) {
 			res.send(JSON.stringify(result));
 		});
 	}
 });
+
+//根据习题id在question表中查找习题信息
+app.get('/allquestions', function (req, res) {
+	console.log(req.query.questionlist)
+	var thesequestions = req.query.questionlist.split(',')
+	var instring = "'"+thesequestions.join("','")+"'";  
+	var sql = 'SELECT subject,optionDetail,imgUrl,question_id from question where question_id in ('+instring+")";;
+		connection.query(sql,function (err, result) {
+			res.send(JSON.stringify(result));
+		});
+});
+
 
 //教师点击开始做题按钮，按钮变为停止做题，并刷新页面
 app.get('/startbtnToshowbtn', function (req, res) {

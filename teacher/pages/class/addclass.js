@@ -31,6 +31,11 @@ Page({
       num: e.detail.value
     })
   },
+  bindPwdInput: function (e) {
+    this.setData({
+      pwd: e.detail.value
+    })
+  },
   bindFormSubmit: function(e) {
     var self = this;
     wx.request({
@@ -39,7 +44,8 @@ Page({
       data: {
         course_id: self.data.course_id,
         name: e.detail.value.name,
-        num: e.detail.value.num
+        num: e.detail.value.num,
+        pwd: e.detail.value.pwd,
       },
       header: {
           'content-type': 'application/json'

@@ -184,14 +184,18 @@ app.post('/addClass', function (req, res) {
 	var sql = 'SELECT * from class WHERE course_id='+req.body.course_id;
 	connection.query(sql, function (err, result) {
         class_id = req.body.course_id + result.length;
-        var addUserSql = 'INSERT INTO class(course_id,name,max_num,student_num,class_id) VALUES(?,?,?,0,?)',
-			addSqlParams = [req.body.course_id,req.body.name,req.body.num,class_id],
+        var addUserSql = 'INSERT INTO class(course_id,name,max_num,student_num,class_id, password) VALUES(?,?,?,0,?,?)',
+			addSqlParams = [req.body.course_id,req.body.name,req.body.num,class_id,req.body.pwd],
 			res_body;
 		connection.query(addUserSql, addSqlParams, function (err, result) {
 	  		res_body = {
 	  			add_success: 1
 	  		}
-	        res.send(res_body);
+	  		var mysql1 = 'insert into manager(group_down, group_up, mark_down, mark_up, practiceID, class_id, attend)VALUES(?,?,?,?,?,?,?)',
+	  			addmysqlparams1 = [0,0,0,0,0,class_id,0];
+	  			connection.query(mysql1, addmysqlparams1, function (err, result) {
+	  				res.send(res_body);
+	  			})
 		});
 	});
 });
@@ -228,8 +232,8 @@ app.post('/setpractice', function (req, res) {
 	var sql = 'SELECT * from practice WHERE classId='+req.body.classId;
 	connection.query(sql, function (err, result) {
         str = req.body.classId + result.length;
-        var addUserSql = 'INSERT INTO practice(courseId,classId,practiceName,startDate,endDate,startTime,endTime,questionList,practiceNum,practiceId,showendbtn,showgradebtn) VALUES(?,?,?,?,?,?,?,?,?,?,?,?)',
-		addSqlParams = [req.body.courseId,req.body.classId,req.body.practiceName,req.body.startDate,req.body.endDate,req.body.startTime,req.body.endTime,req.body.questionList.toString(),req.body.practiceNum,str,'','none'],
+        var addUserSql = 'INSERT INTO practice(courseId,classId,practiceName,startDate,endDate,startTime,endTime,questionList,practiceNum,practiceId,showendbtn,showgradebtn, showstartbtn) VALUES(?,?,?,?,?,?,?,?,?,?,?,?,?)',
+		addSqlParams = [req.body.courseId,req.body.classId,req.body.practiceName,req.body.startDate,req.body.endDate,req.body.startTime,req.body.endTime,req.body.questionList.toString(),req.body.practiceNum,str,'none','none',''],
 		res_body;
 	connection.query(addUserSql, addSqlParams, function (err, result) {
 		res_body = {
@@ -339,17 +343,37 @@ app.get('/questionList', function (req, res) {
 	}
 });
 
+//教师点击开始做题按钮，按钮变为停止做题，并刷新页面
+app.get('/startbtnToshowbtn', function (req, res) {
+	var sql = 'update practice set showendbtn = \"\",showstartbtn = \"none\",showgradebtn=\"none\"  where practiceId = '+ req.query.practice_id;
+	connection.query(sql, function (err, result) {
+		sql2 = 'select classId from practice where practiceId = ' + req.query.practice_id;
+		connection.query(sql2, function (err, result) {
+			sql3 = 'update manager set practiceID = ' + req.query.practice_id + ' where class_id = ' + result[0].classId;
+			connection.query(sql3, function (err, result) {
+				res.send(JSON.stringify(result));
+			});
+		});
+	});
+});
+
 //教师点击结束做题按钮，按钮变为查看成绩，并刷新页面
 app.get('/endbtnToshowbtn', function (req, res) {
-	var sql = 'update practice set showendbtn = \"none\",showgradebtn=\"\"  where practiceId = '+ req.query.practice_id;
+	var sql = 'update practice set showendbtn = \"none\",showstartbtn = \"none\",showgradebtn=\"\"  where practiceId = '+ req.query.practice_id;
 	connection.query(sql, function (err, result) {
-		res.send(JSON.stringify(result));
+		sql2 = 'select classId from practice where practiceId = ' + req.query.practice_id;
+		connection.query(sql2, function (err, result) {
+			sql3 = 'update manager set practiceID = 0' + ' where class_id = ' + result[0].classId;
+			connection.query(sql3, function (err, result) {
+				res.send(JSON.stringify(result));
+			});
+		});
 	});
 });
 
 //根据class表中attend的值为0或1设置开始签到和结束签到按钮状态
 app.get('/classstate', function (req, res) {
-	var sql = 'select attend from class where class_id = '+ req.query.class_id;
+	var sql = 'select attend from manager where class_id = '+ req.query.class_id;
 	connection.query(sql, function (err, result) {
 		res.send(JSON.stringify(result));
 	});
@@ -358,7 +382,7 @@ app.get('/classstate', function (req, res) {
 
 //教师点击开始签到按钮
 app.get('/startsign', function (req, res) {
-	var sql = 'update class set attend = 1 where class_id = '+ req.query.class_id;
+	var sql = 'update manager set attend = 1 where class_id = '+ req.query.class_id;
 	connection.query(sql, function (err, result) {
 		res.send(req.query.class_id);
 	});
@@ -366,7 +390,7 @@ app.get('/startsign', function (req, res) {
 
 //教师点击结束签到按钮
 app.get('/endsign', function (req, res) {
-	var sql = 'update class set attend = 0 where class_id = '+ req.query.class_id;
+	var sql = 'update manager set attend = 0 where class_id = '+ req.query.class_id;
 	connection.query(sql, function (err, result) {
 		res.send(req.query.class_id);
 	});

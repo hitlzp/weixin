@@ -7,6 +7,9 @@
     <view class="inputSection">
         <input name="num" placeholder="课程容量" bindblur="bindNumInput" auto-focus/>
     </view>
+    <view class="inputSection">
+        <input name="pwd" placeholder="加入密码" bindblur="bindPwdInput" password/>
+    </view>
     <view>
         <button formType="submit" class="submitBtn" disabled="{{btnDisabled}}">创建课程班</button>
     </view>

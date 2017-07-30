@@ -57,6 +57,26 @@ Page({
     })
   },
 
+  startScore: function (e) {
+    var that = this;
+    wx.request({
+      url: getApp().globalData.yurl + '/startbtnToshowbtn',
+      method: 'GET',
+      data: {
+        practice_id: e.target.dataset.practiceid
+      },
+      header: {
+        'content-type': 'application/json'
+      },
+      success: function (res) {
+        that.setData({
+          array: res.data
+        })
+        GetList(that);
+      }
+    })
+  },
+
   stopScore: function (e) {
     var that = this;
     wx.request({

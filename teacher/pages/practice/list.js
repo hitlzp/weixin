@@ -7,7 +7,8 @@ Page({
    */
   data: {
     question_list: [],
-    yy:'1'
+    yy:'1',
+    something:''
   },
 
   /**
@@ -41,6 +42,12 @@ Page({
                     var question_list = res.data,
                         oneString = '',
                         detail_list = [];
+                    if (question_list.length == 0)
+                    {
+                        self.setData({
+                          something:"学生尚未做题！",
+                        })
+                    }
                     for (var i = 0; i < question_list.length; i++) {
                         oneString = ''
                         oneString = oneString + (Number(i) + 1).toString()+ '、'

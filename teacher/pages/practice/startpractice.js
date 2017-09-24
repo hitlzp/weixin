@@ -150,8 +150,9 @@ Page({
             'content-type': 'application/json'
           },
           success: function (res) {
-            wx.switchTab({
-              url: "/pages/practice/practiceList"
+            console.log('what?')
+            wx.redirectTo({
+              url: "/pages/class/class?id="+self.data.course_id
             })
           }
         })

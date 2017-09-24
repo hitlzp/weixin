@@ -1,0 +1,35 @@
+{
+  "pages":[
+    "pages/index/index",
+    "pages/login/login",
+    "pages/register/register",
+    "pages/class/class",
+    "pages/class/classindex",
+    "pages/practice/practice",
+    "pages/practice/submit",
+    "pages/practice/startpractice",
+    "pages/question/questionlist",
+    "pages/practice/practiceitem",
+    "pages/errquestion/list",
+    "pages/user/user",
+    "pages/user/grades",
+    "pages/user/info",
+    "pages/attend/attend"
+  ],
+  "window":{
+    "backgroundTextStyle":"light",
+    "navigationBarBackgroundColor": "#fff",
+    "navigationBarTitleText": "翻转课堂训练系统",
+    "navigationBarTextStyle":"black"
+  },
+  "tabBar": {
+      "selectedColor": "#9acd32",
+      "list": [{
+        "pagePath": "pages/index/index",
+        "text": "课程"
+      },{
+         "pagePath": "pages/user/user",
+         "text": "我的" 
+      }]
+    }
+}

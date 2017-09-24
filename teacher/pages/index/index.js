@@ -8,7 +8,7 @@ Page({
   onLoad: function () {
     var self = this;
     wx.getStorage({
-      key: 'user',
+      key: 'userth',
       success: function (res) {
         console.log(res.data)
         wx.request({

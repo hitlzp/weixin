@@ -1,55 +1,17 @@
 var express = require('express');
-var bodyParser = require('body-parser')
+var bodyParser = require('body-parser');
 var app = express();
 app.use(bodyParser.urlencoded({ extended: false }))
 app.use(bodyParser.json())
 
 var mysql = require('mysql');
 const connection = mysql.createConnection({
-  host     : 'localhost',
-  user     : 'root',
-  password : 'ni1234ren',
-  database : 'fanzhuan'
+	host     : 'localhost',
+	user     : 'root',
+	password : 'ni1234ren',
+	database : 'fanzhuan'
 });
 app.use(express.static(__dirname + '/public'));
-
-//教师学生登陆
-app.post('/login', function (req, res) { 
-	var sql, res_body;
-
-	if(req.body.entryOption == 1) {
-		sql = 'SELECT password from teacher WHERE email ='+ '\''+ req.body.user + '\'';//教师登陆
-	}else {
-		sql = 'SELECT password from student WHERE student_id ='+ '\''+ req.body.user + '\'';//学生登陆
-	}
-
-	connection.query(sql,function (err, rows, fields) {
-
-        if(err || !rows || rows.length==0){
-        	res_body = {
-        		user_exist: 0 //用户名或密码错误
-          	}
-        }else {
-        	res_body = {
-        		user_exist: 1//用户存在，密码错误
-          	}
-          	if(rows[0].password == req.body.pwd)
-          	{
-          		res_body = {
-        		user_exist: 2//用户名密码正确，登陆成功
-          		}
-          	}
-        }
-
-        if(req.body.user == '' || req.body.user == '')
-        {
-        	res_body = {
-        		user_exist: 3//用户信息不全
-          	}
-        }
-        res.json({haha: res_body});
-	});
-});
 
 //教师注册
 app.post('/teacherRegister', function (req, res) {
@@ -63,30 +25,30 @@ app.post('/teacherRegister', function (req, res) {
 		{
 			res_body = {
         		user_exist: 2 //用户信息不全
-          	}
-		}
-		else{
+        	}
+        }
+        else{
 
-	        if(err || !rows || rows.length==0){
-	        	res_body = {
+        	if(err || !rows || rows.length==0){
+        		res_body = {
 	        		user_exist: 0 //可以注册
-	          	}
+	        	}
 
-	          	var addUserSql = 'INSERT INTO teacher(email,name,password) VALUES(?,?,?)',
-				addSqlParams = [req.body.email,req.body.userName,req.body.pwd],
-				res_body;
+	        	var addUserSql = 'INSERT INTO teacher(email,name,password) VALUES(?,?,?)',
+	        	addSqlParams = [req.body.email,req.body.userName,req.body.pwd],
+	        	res_body;
 
-			  	connection.query(addUserSql, addSqlParams, function (err, result) { 
-				});
+	        	connection.query(addUserSql, addSqlParams, function (err, result) { 
+	        	});
 	        }
 	        else 
 	        {
 	        	res_body = {
 	        		user_exist: 1 //用户已存在
-	          	}
+	        	}
 	        }
-		}
-		res.json({haha: res_body});
+	    }
+	    res.json({haha: res_body});
 	});
 });
 
@@ -95,107 +57,28 @@ app.post('/teacherRegister', function (req, res) {
 app.post('/showCourseList', function (req, res) {
 	var sql = 'SELECT * from course where teacher_id = ' + '\''+req.body.themail +'\'';
 	connection.query(sql, function (err, result) {
-        res.send(JSON.stringify(result));
+		res.send(JSON.stringify(result));
 	});
 });
 
-
-
-//学生注册
-app.post('/studentRegister', function (req, res) {
-	var sql, res_body;
-	sql = 'SELECT password from student WHERE student_id ='+ '\''+ req.body.studentId + '\'';
-
-	connection.query(sql,function (err, rows, fields) {
-
-		if(req.body.studentId == '' || req.body.userName == '' || req.body.pwd == '')
-		{
-			res_body = {
-        		user_exist: 2 //用户信息不全
-          	}
-		}
-		else{
-
-	        if(err || !rows || rows.length==0){
-	        	res_body = {
-	        		user_exist: 0 //可以注册
-	          	}
-
-	          	var addUserSql = 'INSERT INTO student(student_id,name,password) VALUES(?,?,?)',
-				addSqlParams = [req.body.studentId,req.body.userName,req.body.pwd],
-				res_body;
-
-			  	connection.query(addUserSql, addSqlParams, function (err, result) { 
-				});
-	        }
-	        else 
-	        {
-	        	res_body = {
-	        		user_exist: 1 //用户已存在
-	          	}
-	        }
-		}
-		res.json({haha: res_body});
-	});
-});
-
-//教师端和学生端？显示课程班列表
-app.get('/showClassList', function (req, res) {
-	var sql = 'SELECT * from class WHERE course_id='+req.query.course_id;
-	connection.query(sql, function (err, result) {
-		if(req.query.student_id) {
-			var _sql = 'SELECT class_id from studentClass WHERE student_id='+req.query.student_id,
-				res_body = {
-					classList: result
-				};
-			connection.query(_sql, function (err, result) {
-				res_body.studentClasses = result;
-   				res.send(JSON.stringify(res_body));
-			});
-		}else {
-			if(result)
-			{
-					var qq = 'SELECT class_id, count(class_id) as sumstu from studentclass where course_id = '+req.query.course_id+' group by class_id';
-					connection.query(qq, function (err, rows) {
-						if(rows)
-						{
-							for(var w=0; w < rows.length;w++)
-							{
-								for(var k = 0; k < result.length;k++)
-								{
-									if(result[k].class_id == rows[w].class_id)
-									{
-										result[k].student_num= rows[w].sumstu;
-									}
-								}
-							}
-						}
-						res.send(JSON.stringify(result));
-					});
-			}
-			
-		}
-
-	});
-});
 
 //教师添加课程班
 app.post('/addClass', function (req, res) {
 	var sql = 'SELECT * from class WHERE course_id='+req.body.course_id;
 	connection.query(sql, function (err, result) {
-        class_id = req.body.course_id + result.length;
-        var addUserSql = 'INSERT INTO class(course_id,name,max_num,student_num,class_id, password) VALUES(?,?,?,0,?,?)',
-			addSqlParams = [req.body.course_id,req.body.name,req.body.num,class_id,req.body.pwd],
-			res_body;
+		class_id = req.body.course_id + result.length;
+		var addUserSql = 'INSERT INTO class(course_id,name,max_num,student_num,class_id, password) VALUES(?,?,?,0,?,?)',
+		addSqlParams = [req.body.course_id,req.body.name,req.body.num,class_id,req.body.pwd],
+		res_body;
 		connection.query(addUserSql, addSqlParams, function (err, result) {
-	  		res_body = {
-	  			add_success: 1
-	  		}
-	  		var mysql1 = 'insert into manager(group_down, group_up, mark_down, mark_up, practiceID, class_id, attend)VALUES(?,?,?,?,?,?,?)',
-	  			addmysqlparams1 = [0,0,0,0,0,class_id,0];
-	  			connection.query(mysql1, addmysqlparams1, function (err, result) {
-	  				res.send(res_body);
-	  			})
+			res_body = {
+				add_success: 1
+			}
+			var mysql1 = 'insert into manager(group_down, group_up, mark_down, mark_up, practiceID, class_id, attend)VALUES(?,?,?,?,?,?,?)',
+			addmysqlparams1 = [0,0,0,0,0,class_id,0];
+			connection.query(mysql1, addmysqlparams1, function (err, result) {
+				res.send(res_body);
+			})
 		});
 	});
 });
@@ -204,15 +87,15 @@ app.post('/addClass', function (req, res) {
 app.get('/showExamList', function (req, res) {
 	var sql = 'SELECT exam_id,exam_name from question WHERE course_id='+req.query.course_id;
 	var new_result = [],
-		exam_list = [];
+	exam_list = [];
 	connection.query(sql, function (err, result) {
-        for(var i=0;i<result.length; i++) {
-        	if(exam_list.indexOf(result[i].exam_id)==-1) {
-        		exam_list.push(result[i].exam_id);
-        		new_result.push(result[i]);
-        	}
-        }
-        res.send(JSON.stringify(new_result));
+		for(var i=0;i<result.length; i++) {
+			if(exam_list.indexOf(result[i].exam_id)==-1) {
+				exam_list.push(result[i].exam_id);
+				new_result.push(result[i]);
+			}
+		}
+		res.send(JSON.stringify(new_result));
 	});
 });
 
@@ -221,7 +104,7 @@ app.get('/showExamList', function (req, res) {
 app.get('/showQuestionList', function (req, res) {
 	var sql = 'SELECT * from question WHERE exam_id='+req.query.exam_id;
 	connection.query(sql, function (err, result) {
-        res.send(JSON.stringify(result));
+		res.send(JSON.stringify(result));
 	});
 });
 
@@ -231,22 +114,22 @@ app.post('/setpractice', function (req, res) {
 
 	var sql = 'SELECT * from practice WHERE classId='+req.body.classId;
 	connection.query(sql, function (err, result) {
-        str = req.body.classId + result.length;
-        var addUserSql = 'INSERT INTO practice(courseId,classId,practiceName,startDate,endDate,startTime,endTime,questionList,practiceNum,practiceId,showendbtn,showgradebtn, showstartbtn) VALUES(?,?,?,?,?,?,?,?,?,?,?,?,?)',
+		str = req.body.classId + result.length;
+		var addUserSql = 'INSERT INTO practice(courseId,classId,practiceName,startDate,endDate,startTime,endTime,questionList,practiceNum,practiceId,showendbtn,showgradebtn, showstartbtn) VALUES(?,?,?,?,?,?,?,?,?,?,?,?,?)',
 		addSqlParams = [req.body.courseId,req.body.classId,req.body.practiceName,req.body.startDate,req.body.endDate,req.body.startTime,req.body.endTime,req.body.questionList.toString(),req.body.practiceNum,str,'none','none',''],
 		res_body;
-	connection.query(addUserSql, addSqlParams, function (err, result) {
-		res_body = {
-  			practice_id: str,
-  		}
-		var sql1 = 'select student_id from studentclass where class_id = '+req.body.classId;
-		connection.query(sql1, function (err, result) {
-			res_body.allstu = result;
-			res.send(res_body);
-		})
+		connection.query(addUserSql, addSqlParams, function (err, result) {
+			res_body = {
+				practice_id: str,
+			}
+			var sql1 = 'select student_id from studentclass where class_id = '+req.body.classId;
+			connection.query(sql1, function (err, result) {
+				res_body.allstu = result;
+				res.send(res_body);
+			})
 		});
-    })
-    
+	})
+
 	
 });
 
@@ -271,7 +154,7 @@ app.post('/savegradesconfig', function (req, res) {
 app.get('/practiceList', function (req, res) {
 	if(req.query.student_id) {
 		var practiceSql='SELECT * FROM studentclass inner join practice WHERE studentclass.class_id=practice.classId AND studentclass.student_id='+req.query.student_id,
-			res_body = {};
+		res_body = {};
 		connection.query(practiceSql, function (err, result) {
 			res_body.practice=result;
 			var gradeSql='SELECT * FROM studentpractice WHERE student_id='+req.query.student_id;
@@ -281,9 +164,9 @@ app.get('/practiceList', function (req, res) {
 			})
 		}) 
 	}else {
-		var sql = 'SELECT * from practice';
+		var sql = 'SELECT * from practice where classId = ' + req.query.class_id;
 		connection.query(sql, function (err, result) {
-	        res.send(JSON.stringify(result));
+			res.send(JSON.stringify(result));
 		});
 	}
 });
@@ -302,19 +185,19 @@ app.get('/gradeList', function (req, res) {
 			var sql = 'select * from studentclass where class_id = '+myclassid,
 			res_body = {};
 			connection.query(sql, function (err, result) {
-			var gradeSql = 'SELECT * FROM studentpractice inner join student WHERE studentpractice.student_id=student.student_id AND studentpractice.practice_id ='+req.query.practiceId;
-			res_body.student_num = result.length;
-			connection.query(gradeSql, function (err, result) {
-				res_body.list = result;
+				var gradeSql = 'SELECT * FROM studentpractice inner join student WHERE studentpractice.student_id=student.student_id AND studentpractice.practice_id ='+req.query.practiceId;
+				res_body.student_num = result.length;
+				connection.query(gradeSql, function (err, result) {
+					res_body.list = result;
 
-				allstu = 'SELECT * FROM studentclass inner join student WHERE studentclass.student_id=student.student_id AND studentclass.class_id ='+myclassid+' and studentclass.student_id not in (SELECT student_id FROM studentpractice  WHERE  studentpractice.practice_id = '+req.query.practiceId+')';
+					allstu = 'SELECT * FROM studentclass inner join student WHERE studentclass.student_id=student.student_id AND studentclass.class_id ='+myclassid+' and studentclass.student_id not in (SELECT student_id FROM studentpractice  WHERE  studentpractice.practice_id = '+req.query.practiceId+')';
 				//查询的是参加课程但未参与做题的学生信息
 				connection.query(allstu, function (err, result) {
 					res_body.list2 = result;
 					res.send(JSON.stringify(res_body));
 				})
-		});
-	});
+			});
+			});
 		}
 	})
 });
@@ -330,7 +213,7 @@ app.get('/examQuestionList', function (req, res) {
 app.get('/questionList', function (req, res) {
 	if(req.query.student_id) {
 		var sql = 'SELECT subject,optionDetail,imgUrl,question_id from question WHERE question_id in (SELECT question_id from grades WHERE practice_id= ? AND student_id= ?)',
-			params = [req.query.practice_id,req.query.student_id];
+		params = [req.query.practice_id,req.query.student_id];
 		connection.query(sql,params, function (err, result) {
 			res.send(JSON.stringify(result));
 		});
@@ -348,9 +231,9 @@ app.get('/allquestions', function (req, res) {
 	var thesequestions = req.query.questionlist.split(',')
 	var instring = "'"+thesequestions.join("','")+"'";  
 	var sql = 'SELECT subject,optionDetail,imgUrl,question_id from question where question_id in ('+instring+")";;
-		connection.query(sql,function (err, result) {
-			res.send(JSON.stringify(result));
-		});
+	connection.query(sql,function (err, result) {
+		res.send(JSON.stringify(result));
+	});
 });
 
 
@@ -420,6 +303,326 @@ app.get('/showstulist', function (req, res) {
 		});//查询未签到学生信息
 	});//查询已签到学生信息
 });
+
+
+
+
+
+
+
+
+
+//--------------------------------------------------------------------------------------------------------------------------------
+app.post('/login', function (req, res) { 
+	var sql, res_body;
+
+	if(req.body.entryOption == 1) {
+		sql = 'SELECT password from teacher WHERE email ='+ '\''+ req.body.user + '\'';//教师登陆
+	}else {
+		sql = 'SELECT password from student WHERE student_id ='+ '\''+ req.body.user + '\'';//学生登陆
+	}
+
+	connection.query(sql,function (err, rows, fields) {
+
+		if(err || !rows || rows.length==0){
+			res_body = {
+        		user_exist: 0 //用户名或密码错误
+        	}
+        }else {
+        	res_body = {
+        		user_exist: 1//用户存在，密码错误
+        	}
+        	if(rows[0].password == req.body.pwd)
+        	{
+        		res_body = {
+        		user_exist: 2//用户名密码正确，登陆成功
+        	}
+        }
+    }
+
+    if(req.body.user == '' || req.body.user == '')
+    {
+    	res_body = {
+        		user_exist: 3//用户信息不全
+        	}
+        }
+        res.json({haha: res_body});
+    });
+});
+
+
+//教师端和学生端？显示课程班列表
+app.get('/showClassList', function (req, res) {
+	var sql = 'SELECT * from class WHERE course_id='+req.query.course_id;
+	connection.query(sql, function (err, result) {
+		if(req.query.student_id) {
+			var res_body ={};
+			if(result)
+			{
+				var qq = 'SELECT class_id, count(class_id) as sumstu from studentclass where course_id = '+req.query.course_id+' group by class_id';
+				connection.query(qq, function (err, rows) {
+					if(rows)
+					{
+						for(var w=0; w < rows.length;w++)
+						{
+							for(var k = 0; k < result.length;k++)
+							{
+								if(result[k].class_id == rows[w].class_id)
+								{
+									result[k].student_num= rows[w].sumstu;
+								}
+							}
+						}
+					}
+					res_body.classmess = result;
+					var qq2 = 'select class_id from studentclass where student_id = ' + req.query.student_id+ ' and course_id = '+ req.query.course_id;
+					connection.query(qq2, function (err, rows) {
+						res_body.allmyclass = rows;
+						res.send(JSON.stringify(res_body));
+					});
+				});
+			}
+		}
+		else {
+			if(result)
+			{
+				var qq = 'SELECT class_id, count(class_id) as sumstu from studentclass where course_id = '+req.query.course_id+' group by class_id';
+				connection.query(qq, function (err, rows) {
+					if(rows)
+					{
+						for(var w=0; w < rows.length;w++)
+						{
+							for(var k = 0; k < result.length;k++)
+							{
+								if(result[k].class_id == rows[w].class_id)
+								{
+									result[k].student_num= rows[w].sumstu;
+								}
+							}
+						}
+					}
+					res.send(JSON.stringify(result));
+				});
+			}
+			
+		}
+
+	});
+});
+
+
+
+
+
+//---------------------------------------------------------------------------------------------------------------------------------
+//学生注册
+app.post('/studentRegister', function (req, res) {
+	var sql, res_body;
+	sql = 'SELECT password from student WHERE student_id ='+ '\''+ req.body.studentId + '\'';
+
+	connection.query(sql,function (err, rows, fields) {
+
+		if(req.body.studentId == '' || req.body.userName == '' || req.body.pwd == '')
+		{
+			res_body = {
+        		user_exist: 2 //用户信息不全
+        	}
+        }
+        else{
+
+        	if(err || !rows || rows.length==0){
+        		res_body = {
+	        		user_exist: 0 //可以注册
+	        	}
+
+	        	var addUserSql = 'INSERT INTO student(student_id,name,password) VALUES(?,?,?)',
+	        	addSqlParams = [req.body.studentId,req.body.userName,req.body.pwd],
+	        	res_body;
+
+	        	connection.query(addUserSql, addSqlParams, function (err, result) { 
+	        	});
+	        }
+	        else 
+	        {
+	        	res_body = {
+	        		user_exist: 1 //用户已存在
+	        	}
+	        }
+	    }
+	    res.json({haha: res_body});
+	});
+});
+//学生端课程列表
+app.get('/showCourseListStudent', function (req, res) {
+	var sql = 'SELECT * from course';
+	connection.query(sql, function (err, result) {
+		res.send(JSON.stringify(result));
+	//console.log(result)
+});
+});
+//学生选课
+app.post('/joinClass', function (req, res) {
+	var sql = 'SELECT password, student_num from class WHERE class_id='+req.body.class_id;
+	console.log(req.body.class_id);
+	connection.query(sql, function (err, result) {
+		console.log(result);
+		var res_body;
+		console.log(req.body.pwd); 
+		if(req.body.pwd == result[0].password) {
+			res_body = {
+				join_success: 1
+			};
+			var addSql = 'INSERT INTO studentClass (course_id,class_id,student_id) VALUES(?,?,?)',
+			addSqlParams = [req.body.course_id,req.body.class_id,req.body.student_id];
+			connection.query(addSql, addSqlParams, function (err, result) {
+		        //console.log(result,err);
+		    });
+			var changeNumSql = 'UPDATE class SET student_num = ? WHERE class_id='+req.body.class_id,
+			sqlParams = [parseInt(result[0].student_num)+1]
+			connection.query(changeNumSql, sqlParams, function (err, result) {
+				//console.log(result);
+				res.send(JSON.stringify(res_body));
+			});
+		}else {
+			res_body = {
+				join_success: 0
+			};
+			res.send(JSON.stringify(res_body));
+		}
+	})
+});
+
+app.get('/manageAttend', function (req, res) {
+	var sql = 'select attend from manager WHERE class_id='+req.query.class_id,
+	//var sql = "select * from manager ",
+	res_body = {};
+		//console.log(req);
+		connection.query(sql, function (err, result) {
+			
+			console.log(result)
+			res_body = result;
+			res.send(JSON.stringify(res_body));
+		});
+
+	});
+
+app.post('/studentAttend', function (req, res) {
+	//console.log('haha');
+	var addUserSql = 'INSERT INTO attend VALUES(?,?,?,?,?)',
+	addSqlParams = [req.body.studentID,req.body.latitude,req.body.longitude,req.body.classID,req.body.number1],
+	res_body;
+        //console.log(addUserSql);
+
+        connection.query(addUserSql, addSqlParams, function (err, result) {
+        	if(!err) {
+        		res_body = {
+        			user_exist:0
+        		}
+        	}else {
+        		res_body = {
+        			user_exist:1
+        		}
+        	}
+        	console.log(res_body['user_exist'])
+        	res.send(JSON.stringify(res_body));
+        });
+    });
+app.get('/managePractice', function (req, res) {
+	var sql = 'select practiceID from manager WHERE class_id='+req.query.class_id,
+	res_body = {};
+	connection.query(sql, function (err, result) {
+		console.log('result=',result)
+		res_body = result;
+		res.send(JSON.stringify(res_body));
+	});
+
+});
+app.get('/questionListStudent', function (req, res) {
+	if(req.query.student_id) {
+		var sql = 'SELECT subject,optionDetail,imgUrl,question_id from question WHERE question_id in (SELECT question_id from grades WHERE practice_id= ? AND student_id= ?)',
+		params = [req.query.practice_id,req.query.student_id];
+		connection.query(sql,params, function (err, result) {
+			res.send(JSON.stringify(result));
+		});
+	}else {
+		var sql = 'SELECT subject,optionDetail,imgUrl,question_id from question WHERE question_id in (SELECT question_id from grades WHERE practice_id= ? )',
+		params = [req.query.practice_id];
+		connection.query(sql,params, function (err, result) {
+			res.send(JSON.stringify(result));
+		});
+	}
+});
+app.get('/practiceItem', function (req, res) {
+	var sql = 'SELECT subject,optionDetail,imgUrl,question_id from question WHERE question_id in (SELECT question_id from grades WHERE practice_id= ? AND student_id= ?)',
+	params = [req.query.practice_id,req.query.student_id],
+	res_body = {};
+	connection.query(sql,params, function (err, result) {
+		res_body.question = result;
+		var sql = 'SELECT * FROM grades WHERE student_id=? AND practice_id=?',
+		params = [req.query.student_id, req.query.practice_id];
+		connection.query(sql,params, function (err, result) {
+			//console.log(result[0]);
+			res_body.grades = result;
+			res.send(JSON.stringify(res_body));
+		});
+	});
+});
+
+app.post('/postAnswer', function (req, res) {
+	var sql = 'INSERT INTO studentpractice (student_id,practice_id,goodNum,totalNum) VALUES(?,?,?,?)',	
+	params = [req.body.student_id,req.body.practice_id,req.body.goodNum,req.body.totalNum];
+	connection.query(sql, params, function (err, result) {
+		//console.log(result)
+	});
+	var sql1='select * from grades where practice_id= ? AND student_id= ?',
+	params1=[req.body.practice_id,req.body.student_id];
+	connection.query(sql1, params1, function (err, result) {
+		console.log(result);
+		if (!result.length){
+			console.log('yes');
+			for(var i=0;i<req.body.list.length;i++) {
+				var question_id = req.body.list[i].question_id,
+				answer = req.body.list[i].answer,
+				postAnswer = req.body.list[i].postAnswer,
+				sql = 'INSERT INTO grades VALUES(?,?,?,?,?)',	
+				params = [question_id,req.body.student_id,req.body.practice_id,answer,postAnswer];
+				connection.query(sql, params, function (err, result) {
+					res.send();
+
+				});
+			}
+		}
+		else{
+			//console.log(result)
+		}
+	});
+	for(var i=0;i<req.body.list.length;i++) {
+		var question_id = req.body.list[i].question_id,
+		answer = req.body.list[i].answer,
+		postAnswer = req.body.list[i].postAnswer,
+		sql = 'UPDATE grades SET answer = ?,postAnswer = ? WHERE student_id= ? AND question_id= ?',	
+		params = [answer,postAnswer,req.body.student_id,question_id];
+		connection.query(sql, params, function (err, result) {
+			res.send();
+
+		});
+	}
+}
+);
+
+
+
+
+app.get('/getAllGrades', function (req, res) {
+	var sql = 'SELECT goodNum,totalNum,practice_id FROM studentpractice WHERE student_id='+req.query.studentId,
+	res_body = {};
+	connection.query(sql, function (err, result) {
+		res_body = result;
+		console.log(result);
+		res.send(JSON.stringify(res_body));
+	});
+});
+
 
 
 app.listen(3000,function(){

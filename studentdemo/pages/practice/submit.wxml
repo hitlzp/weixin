@@ -1,0 +1,5 @@
+<!--pages/practice/submit.wxml-->
+<text>题目还在提交过程中，请在题目答题关闭后刷新页面，\n会查看做题成绩和答案解析</text>
+  <view class="scroll-view-item">
+    <button class="sub-btn" bindtap="bindCourseTap1" >刷新</button>
+  </view>

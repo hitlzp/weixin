@@ -25,7 +25,7 @@ App({
 
   
   globalData: {
-    userInfo: null,
-    yurl: "http://192.168.199.148:3000"
+    userInfo: null, 
+    yurl: "http://192.168.1.148:3000"
   }
 })

@@ -1,0 +1,20 @@
+<!--index.wxml-->
+<view class="container">
+  <scroll-view scroll-y="true" style="height: 100%;">
+          <view class="text-view1"  bindtap="bindCourseTap1">      
+          <text>扫码</text>
+        </view>
+    <view name="course-show" wx:for="{{array}}" wx:for-item="item">
+      <view class="scroll-view-item" data-id="{{item.course_id}}" data-name="{{item.course_name}}" bindtap="bindCourseTap">
+        <view class="text-view">      
+          <text class="course-title">{{item.course_name}}</text>
+        </view>
+        <view class="img-view">      
+          <image src="{{item.imgUrl}}" mode="scaleToFill" class="course-img"></image>
+        </view>
+      </view>
+    </view>
+    
+  </scroll-view>
+  
+</view>

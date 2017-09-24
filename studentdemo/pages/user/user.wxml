@@ -1,0 +1,19 @@
+<!--pages/user/user.wxml-->
+<view class="container">
+  <view  bindtap="bindViewTap" class="userinfo">
+    <view class="left-view">
+        <image class="userinfo-avatar" src="{{userInfo.avatarUrl}}" background-size="cover"></image>
+    </view>
+    <view class="right-view">
+        <view>{{userInfo.nickName}}</view>
+        <view class="userinfo-studentid">学号：{{studentId}}</view>
+    </view>
+  </view>
+  <view class="grades-sec" bindtap="gradesJump">成绩统计</view>
+  <view class="bbs-sec">
+    <view class="sec-border" bindtap="infoJump">消息提醒</view>
+  </view>
+
+  <view class="settings" bindtap="logout">退出登录</view>
+</view>
+

@@ -1,0 +1,25 @@
+<!--pages/errquestion/list.wxml-->
+<view class="container">
+  <picker-view indicator-style="height: 50px;" style="width: 100%; height: 50px;" value="{{value}}" bindchange="bindChange">
+    <picker-view-column>
+      <view wx:for="{{course_list}}" style="line-height: 50px;text-align:center;color: #9acd32;">{{item.name}}</view>
+    </picker-view-column>
+  </picker-view>
+  <scroll-view scroll-y="true" style="height: 100%;padding-bottom: 20px;">
+    <view name="course-show" wx:for="{{question_list}}" wx:for-item="item">
+      <view class="scroll-view-item">
+        <view class="text-view">      
+          <text class="course-title">{{item.subject}}</text>
+        </view>
+        <radio-group class="radio-group" bindchange="radioChange" data-index="{{item.index}}">
+          <label class="radio" wx:for="{{item.optionDetail}}" wx:for-item="optionItem">
+            <radio value="{{optionItem.value}}" checked="{{optionItem.checked}}"/>{{optionItem.content}}
+          </label>
+        </radio-group>
+      </view>
+      <view class="true-answer">
+        {{item.total_analyse}}
+      </view>
+    </view>
+  </scroll-view>
+</view>

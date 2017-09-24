@@ -1,0 +1,23 @@
+<!--pages/class/class.wxml-->
+<view class="container">
+<scroll-view scroll-y="true" style="height: 100%;border-bottom:1px solid #e6e6e6;" wx:if="{{!hidden_condition}}">
+    <view name="class-show" wx:for="{{array}}" wx:for-item="item">
+        <view class="scroll-view-item" bindtap="bindClassTap" data-id="{{item.class_id}}">
+            <view class="text-view">      
+                <text class="class-title">{{item.name}}</text>
+            </view>
+            <view class="img-view">      
+                <text class="student-num">选课人数：{{item.student_num}}/{{item.max_num}}</text>
+            </view>
+        </view>
+    </view>
+</scroll-view>
+<view wx:if="{{hidden_condition}}">
+    <view class="inputSection">
+        <input placeholder="选课密码" bindblur="bindInputPwd" auto-focus password/>
+    </view>
+    <view>
+        <button class="com-btn" bindtap="submitPwd">确定</button>
+    </view>
+</view>
+</view>

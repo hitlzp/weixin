@@ -3,5 +3,6 @@
   <view class="btn-section">
       <button bindtap="setquestion">布置训练题</button>
       <button bindtap="cominglist">学生签到</button>
+      <button bindtap="exam">练习</button>
   </view>
 </view>

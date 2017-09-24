@@ -1,0 +1,14 @@
+   <view class="scroll-view-item">
+    <text >你好：{{name}}</text>
+  </view>
+     <view class="scroll-view-item">
+    <text >班号：{{classId}}</text>
+  </view>
+
+  <view class="scroll-view-item">
+    <button class="sub-btn" bindtap="bindCourseTap1" >课堂签到</button>
+  </view>
+
+  <view class="scroll-view-item">
+    <button class="sub-btn" bindtap="bindCourseTap2" >课堂测试</button>
+  </view>

@@ -57,7 +57,7 @@ Page({
             data: e.detail.value.email,
             success: function () {
               wx.reLaunch({
-                url: '/pages/index/index'
+                url: '/pages/login/login'
               });
             }
           })

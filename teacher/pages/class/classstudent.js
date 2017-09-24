@@ -40,4 +40,15 @@ Page({
     })
   },
 
+  exam: function () {
+    wx.getStorage({
+      key: 'smallclassid',
+      success: function (res) {
+        wx.navigateTo({
+          url: '/pages/practice/practiceList?classid=' + res.data
+        });
+      }
+    })
+  },
+
 })

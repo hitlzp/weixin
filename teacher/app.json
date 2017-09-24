@@ -12,7 +12,8 @@
     "pages/practice/grades",
     "pages/practice/list",
     "pages/practice/practiceList",
-    "pages/coming/coming"
+    "pages/coming/coming",
+    "pages/coming/coming2"
   ],
   "window": {
     "backgroundTextStyle": "light",
@@ -20,18 +21,5 @@
     "navigationBarTitleText": "翻转课堂-教师",
     "navigationBarTextStyle": "black",
     "enablePullDownRefresh": true
-  },
-  "tabBar": {
-    "selectedColor": "#00ff00",
-    "list": [
-      {
-        "pagePath": "pages/index/index",
-        "text": "课程"
-      },
-      {
-        "pagePath": "pages/practice/practiceList",
-        "text": "练习"
-      }
-    ]
   }
 }

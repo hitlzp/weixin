@@ -52,7 +52,7 @@ Page({
             })
 
             wx.setStorage({
-              key: 'user',
+              key: 'userth',
               data: e.detail.value.email,
               success: function () {
                 wx.reLaunch({

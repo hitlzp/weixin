@@ -1,0 +1,32 @@
+<!--pages/practice/startpractice.wxml-->
+<view class="container">
+  <!--<view class="train-grades" wx:if="{{grades}}">
+    此次答题成绩为：{{grades}}
+  </view>
+  -->
+  <scroll-view scroll-y="true" style="height: 100%;padding-bottom: 20px;">
+    <view name="course-show" wx:for="{{array}}" wx:for-item="item">
+      <view class="scroll-view-item">
+        <view class="text-view">      
+          <text class="course-title">{{item.subject}}</text>
+        </view>
+        <radio-group class="radio-group" bindchange="radioChange" data-index="{{item.index}}">
+          <label class="radio" wx:for="{{item.optionDetail}}" wx:for-item="optionItem">
+            <radio value="{{optionItem.value}}" checked="{{optionItem.checked}}"/>{{optionItem.content}}
+          </label>
+        </radio-group>
+      </view>
+      <!--
+      <view class="true-answer" wx:if="{{complete[item.index] == 1}}">
+        {{item.total_analyse}}
+      </view>
+      <view class="false-answer" wx:if="{{complete[item.index] == 2}}">
+        {{item.total_analyse}}
+      </view>
+      -->
+    </view>
+  </scroll-view>
+  <view class="btn-section" wx:if="{{!grades}}">
+    <button class="sub-btn" bindtap="submitPractice">提交练习</button>
+  </view>
+</view>

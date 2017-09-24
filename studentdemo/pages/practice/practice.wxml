@@ -1,0 +1,24 @@
+<!--pages/practice/practice.wxml-->
+<view class="container">
+    <scroll-view scroll-y="true" style="height: 100%;border-bottom:1px solid #e6e6e6;">
+        <view name="class-show" wx:for="{{array}}" wx:for-item="item">
+            <view class="scroll-view-item" bindtap="bindPracticeTap" data-item="{{item}}">
+                <view class="text-view">      
+                    <text class="class-title">{{item.practiceName}}</text>
+                </view>
+                <view class="btn-view" wx:if="{{item.canPractice}}">
+                    <button class="btn" bindtap="startPractice" data-item="{{item}}">参加练习</button>
+                </view>
+                <view class="btn-view" wx:if="{{item.complete}}">
+                    <button class="btn" disabled>已完成</button>
+                </view>
+                <view class="btn-view" wx:if="{{item.noComplete}}">
+                    <button class="btn" disabled>未完成</button>
+                </view>
+                <view class="btn-view" wx:if="{{item.willStart}}">
+                    <button class="btn" disabled>即将开始</button>
+                </view>
+            </view>
+        </view>
+    </scroll-view>
+</view>

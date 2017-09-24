@@ -8,6 +8,7 @@ var GetList = function (that) {
     url: getApp().globalData.yurl + '/practiceList',
     method: 'GET',
     data: {
+      class_id: that.data.class_id
     },
     header: {
       'content-type': 'application/json'
@@ -30,10 +31,12 @@ Page({
 
   onLoad:function(options){
     var that =this
+    
     wx.getSystemInfo({
       success: function (res) { 
         that.setData({
-          windowHeight: res.windowHeight
+          windowHeight: res.windowHeight,
+          class_id :options.classid
         })
       },
     })

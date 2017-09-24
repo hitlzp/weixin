@@ -58,7 +58,7 @@ Page({
             that.setData({
               listData: res.data.comedstudent,
               listData2: res.data.notcomestudent,
-              sum1: res.data.comedstudent.length,
+              sum1: res.data.notcomestudent.length,
               sum2: res.data.notcomestudent.length + res.data.comedstudent.length
             })
           }
@@ -99,7 +99,7 @@ Page({
       },
       success: function (res) {
         wx.redirectTo({
-          url: '/pages/coming/coming2?id=' + res.data
+          url: '/pages/coming/coming?id=' + res.data
         })
       }
     })

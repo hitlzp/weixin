@@ -65,7 +65,7 @@ Page({
             duration: 2000
           })
           wx.setStorage({
-            key: 'user',
+            key: 'userth',
             data: e.detail.value.user,
             success: function () {
               wx.reLaunch({

@@ -1,0 +1,11 @@
+/* pages/class/classindex.wxss */
+.scroll-view-item {
+  margin-bottom: 20px;
+  height: 56px;
+  width: 100%;
+  border-bottom: 1px solid #e6e6e6;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+
+}

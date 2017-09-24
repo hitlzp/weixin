@@ -1,0 +1,32 @@
+<!--pages/attend/attend.wxml-->
+<view wx:if="{{hidden_condition==0}}">
+<view>
+<text>点名次数：{{id}}</text>
+</view>
+<view>
+<text>班号：{{class_}}</text>
+</view>
+<view>
+<text>签到成功：{{name}}</text>
+</view>
+<view>
+<text>经度：{{latitude}}</text>
+</view>
+<view>
+<text>纬度：{{longitude}}</text>
+</view>
+</view>
+<view wx:if="{{hidden_condition==1}}">
+<view>
+<text>已签到，无需重新签到</text>
+</view>
+</view>
+<view wx:if="{{hidden_condition==-1}}">
+<view>
+<text>签到窗口处于关闭状态</text>
+</view>
+</view>
+
+
+
+

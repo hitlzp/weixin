@@ -1,6 +1,6 @@
 <!--pages/practice/grades.wxml-->
 <view class="container">
-    <navigator url="/pages/practice/list?practiceId={{practiceId}}" hover-class="navigator-hover" class="navigator">查看习题列表></navigator>
+    <view class="btn-left" bindtap="questionlist" class="navigator">查看习题列表></view>
     <view>需参与测验的学生数为<text class="num-text">{{need_num}}</text>人</view>
     <view>已完成测验的学生数为<text class="num-text">{{real_num}}</text>人</view>
     <canvas canvas-id="pieCanvas" class="canvas" bindtouchstart="touchHandler"></canvas>

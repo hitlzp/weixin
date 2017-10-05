@@ -24,7 +24,7 @@ Page({
    */
   onLoad: function (options) {
     var self = this;
-    id1 = options.Id;
+    id1 = options.classId;
     class_=options.classId;
     wx.getStorage({
       key: 'user',

@@ -14,13 +14,34 @@ Page({
     sum2: 0
   },
 
+
+  onPullDownRefresh: function () {
+    var theclassid = this.data.class_id
+    var that = this;
+    wx.request({
+      url: getApp().globalData.yurl + '/showstulist',
+      method: 'GET',
+      data: {
+        class_id: theclassid,
+      },
+      header: {
+        'content-type': 'application/json'
+      },
+      success: function (res) {
+        that.setData({
+          listData: res.data.comedstudent,
+          listData2: res.data.notcomestudent,
+          sum1: res.data.comedstudent.length,
+          sum2: res.data.notcomestudent.length + res.data.comedstudent.length
+        })
+      }
+    })
+  },       
   /**
    * 生命周期函数--监听页面加载
    */
   onLoad: function (options) {
     var that = this;
-    setInterval(function () {
-      console.log(options.id)
       wx.request({
         url: getApp().globalData.yurl + '/classstate',
         method: 'GET',
@@ -66,7 +87,6 @@ Page({
           })
         }
       })
-    }, 1000) //循环时间 这里是1秒 
   },
 
   startsign: function () {

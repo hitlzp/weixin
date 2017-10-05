@@ -151,7 +151,7 @@ Page({
           },
           success: function (res) {
             console.log('what?')
-            wx.redirectTo({
+            wx.reLaunch({
               url: "/pages/class/class?id="+self.data.course_id
             })
           }

@@ -26,7 +26,7 @@ App({
   },
   globalData: {
     userInfo: null,
-    yurl: "https://www.fzktxcx.xyz:443"
+    yurl: "http://192.168.1.148:3000"
   }
   
 })

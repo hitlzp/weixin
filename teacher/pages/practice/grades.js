@@ -139,11 +139,11 @@ Page({
   
   },
 
-  /**
-   * 用户点击右上角分享
-   */
-  onShareAppMessage: function () {
-
+  questionlist: function () {
+    console.log(this.data.practiceId)
+    wx.redirectTo({
+      url: '/pages/practice/list?practiceId=' + this.data.practiceId
+    })
   },
   touchHandler: function(e) {
       console.log(pieChart.getCurrentDataIndex(e))

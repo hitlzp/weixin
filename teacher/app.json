@@ -20,6 +20,6 @@
     "navigationBarBackgroundColor": "#fff",
     "navigationBarTitleText": "翻转课堂-教师",
     "navigationBarTextStyle": "black",
-    "enablePullDownRefresh": true
+    "enablePullDownRefresh": false
   }
 }

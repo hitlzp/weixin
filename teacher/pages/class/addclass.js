@@ -52,7 +52,7 @@ Page({
       },
       success: function(res) {
         if(res.data.add_success) {
-          wx.navigateTo({
+          wx.reLaunch({
               url: '/pages/class/class?id='+self.data.course_id
           });
         }
